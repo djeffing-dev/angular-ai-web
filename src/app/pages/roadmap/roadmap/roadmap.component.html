@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="card m-5 p-5 shadow  ">
+        <form class="row" (ngSubmit)="envoyerRequete()" #loginForm="ngForm" >
+            <div class="form-group col-lg-8">
+                <label class="form-label">Compétence</label>
+                <select [(ngModel)]="skill" class="form-select" name="skill" required>
+                    <option value="Programmation web">Programmation web</option>
+                    <option value="CyberSecurité">CyberSecurité</option>
+                    <option value="Data Scientiste">Data Scientiste</option>
+                    <option value="Data Analyste">Data Analyste</option>
+                    <option value="Programmeur BI">Programmeur BI</option>
+                    <option value="Certification Aws">Certification Aws</option>
+                    <option value="Trader Boursier">Trader Boursier</option>
+                </select>
+            </div>
+    
+            <div class="form-group col-lg-4">
+                <label class="form-label">Nombre de Mois</label>
+                <input type="number" class="form-control" min="1" max="12" [(ngModel)]="nbrMonth" name="nbrMonth" required>
+            </div>
+    
+            
+            <div class="form-group row mt-5">
+                <button type="submit" class=" col-lg-12 btn btn-primary" [disabled]="!loginForm.valid">
+                    Générer
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    
+    <div class="card shadow">
+        <div class="text-center m-3" *ngIf="isLoading==true">
+            <div class="spinner-grow spinner" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="m-3" [innerHTML]="apiResponseHtml" *ngIf="isLoading==false"></div>
+    </div>
+</div>
+
