@@ -5,7 +5,7 @@ import { RoadmapComponent } from "./pages/roadmap/roadmap/roadmap.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RoadmapComponent],
+  imports: [RoadmapComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
