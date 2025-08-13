@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { RoadmapService } from '../../../services/roadmap/roadmap.service';
+import { RoadmapService } from '../../services/roadmap/roadmap.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { marked } from 'marked';
