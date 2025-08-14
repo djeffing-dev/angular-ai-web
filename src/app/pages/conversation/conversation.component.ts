@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { RoadmapService } from '../../services/roadmap/roadmap.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { marked } from 'marked';
+import { GptService } from '../../services/gpt/gpt.service';
 
 @Component({
   selector: 'app-conversation',
@@ -17,7 +17,7 @@ export class ConversationComponent {
   reponseChunks: string = '';
   messages: string[] = [];
 
-  constructor(private roadmapService: RoadmapService){}
+  constructor(private gptService: GptService){}
 
 
 
@@ -26,7 +26,7 @@ export class ConversationComponent {
     this.prompt = '';
     this.isLoading = true;
     
-    this.roadmapService.prompt1(this.messages).subscribe({
+    this.gptService.prompt1(this.messages).subscribe({
       next : async (response) =>{
         console.log(response)
         this.reponseChunks = await marked(response);

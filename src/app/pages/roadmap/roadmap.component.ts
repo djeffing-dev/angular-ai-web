@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { RoadmapService } from '../../services/roadmap/roadmap.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { marked } from 'marked';
+import { GptService } from '../../services/gpt/gpt.service';
 
 @Component({
   selector: 'app-roadmap',
@@ -17,11 +17,11 @@ export class RoadmapComponent {
   skill:string = '';
   apiResponseHtml = ''
   isLoading:boolean=false;
-  constructor(private roadmapService:RoadmapService ){}
+  constructor(private gptService: GptService ){}
 
   envoyerRequete(){
     this.isLoading=true;
-    this.roadmapService.getRoadmap(this.skill, this.nbrMonth).subscribe({
+    this.gptService.getRoadmap(this.skill, this.nbrMonth).subscribe({
       next: async response=>{
         this.apiResponseHtml = await marked(response);
         this.isLoading = false;
