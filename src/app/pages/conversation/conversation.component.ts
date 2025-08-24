@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { marked } from 'marked';
 import { GptService } from '../../services/gpt/gpt.service';
+import { DashboardService } from '../../services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-conversation',
@@ -16,8 +17,13 @@ export class ConversationComponent {
   isLoading: boolean = false;
   reponseChunks: string = '';
   messages: string[] = [];
+  activeAppId = "code-generator"
 
-  constructor(private gptService: GptService){}
+  constructor(private gptService: GptService, private dashboardService: DashboardService){
+    this.dashboardService.activeApp.subscribe(appId =>{
+      this.activeAppId = appId;
+    })
+  }
 
 
 

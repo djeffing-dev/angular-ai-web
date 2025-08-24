@@ -6,17 +6,19 @@ import { SidebarRightComponent } from "../sidebar-right/sidebar-right.component"
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatComponent } from "../chat/chat.component";
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    SidebarLeftComponent, 
-    SidebarRightComponent, 
-    CommonModule, 
-    FormsModule, 
-    ChatComponent
-  ],
+    SidebarLeftComponent,
+    SidebarRightComponent,
+    CommonModule,
+    FormsModule,
+    ChatComponent,
+    RouterOutlet
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

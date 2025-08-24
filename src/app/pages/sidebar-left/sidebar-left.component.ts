@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardService } from '../../services/dashboard/dashboard.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-left',
@@ -71,7 +72,9 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor( private dashboardService: DashboardService,
+    private router: Router // Injectez le Router
+   ) {}
 
   ngOnInit(): void {
     this.dashboardService.leftSidebarOpen$
@@ -90,5 +93,6 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
 
   selectApp(appId: string): void {
     this.dashboardService.setActiveApp(appId);
+    this.router.navigate([appId]);
   }
 }

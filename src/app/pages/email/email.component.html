@@ -1,237 +1,194 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AiWave Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Header -->
-    <div class="top-header d-flex justify-content-between align-items-center">
-        <div class="logo">
-            <i class="fas fa-brain"></i>
-            AiWave
+<div class="chat-messages ai-response">
+    <div class="chat-input-container  card text-white p-4">
+      <h4 class="mb-4">Générateur d'email IA</h4>
+      <form>
+        <div class="row">
+          <div class="col-lg-6 mb-3">
+            <label for="nom" class="form-label">
+              Votre nom
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Entrez votre nom complet tel qu'il doit apparaître dans la signature de l'email"
+                placement="top" triggers="hover" container="body">
+              </i>
+            </label>
+            <input type="text" class="form-control" id="nom" aria-describedby="nomHelp">
+            <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
+          </div>
+          <div class="col-lg-6 mb-3">
+            À (Destinataire)
+            <label for="destinataire" class="form-label">
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Nom ou adresse email de la personne qui recevra votre message" placement="top"
+                triggers="hover" container="body"></i>
+            </label>
+            <input type="text" class="form-control" id="destinataire">
+          </div>
         </div>
-        <nav class="d-none d-md-flex">
-            <a href="#" class="text-white text-decoration-none mx-3">Home</a>
-            <a href="#" class="text-white text-decoration-none mx-3">Tools</a>
-            <a href="#" class="text-white text-decoration-none mx-3">Pages</a>
-            <a href="#" class="text-white text-decoration-none mx-3">Roadmap</a>
-            <a href="#" class="text-white text-decoration-none mx-3">How to use</a>
-        </nav>
-        <div class="user-profile">
-            <div class="user-avatar">AM</div>
-            <div class="d-none d-md-block">
-                <div class="fw-bold">Adam Milner</div>
-                <div class="small text-muted">adamgmail.com</div>
-            </div>
+  
+        <div class="mb-3">
+          <label for="objet" class="form-label">
+            Objet
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Le sujet de votre email. Soyez précis et concis pour attirer l'attention du destinataire"
+              placement="top" triggers="hover" container="body"></i>
+  
+          </label>
+          <input type="text" class="form-control" id="objet" aria-describedby="objetHelp">
+          <div id="objetHelp" class="form-text">Un objet clair améliore les chances d'ouverture.</div>
         </div>
+  
+        <div class="mb-3">
+          <label for="contexte" class="form-label">
+            Contexte
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Décrivez la situation actuelle, les antécédents ou les éléments de contexte nécessaires à la compréhension de votre demande"
+              placement="top" triggers="hover" container="body"></i>
+          </label>
+          <input type="text" class="form-control" id="contexte" aria-describedby="contexteHelp">
+          <div id="contexteHelp" class="form-text">Donnez le contexte pour une meilleure compréhension.</div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="objectif" class="form-label">
+            Objectif
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Quel est le but de cet email ? Que voulez-vous obtenir comme réponse ou action de la part du destinataire ?"
+              placement="top" triggers="hover" container="body"></i>
+          </label>
+          <input type="text" class="form-control" id="objectif" aria-describedby="objectifHelp">
+          <div id="objectifHelp" class="form-text">Définissez clairement ce que vous attendez.</div>
+        </div>
+  
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="langue" class="form-label">
+              Langue
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Choisissez la langue dans laquelle l'email doit être rédigé. 'Auto' détectera automatiquement la langue appropriée"
+                placement="top" triggers="hover" container="body"></i>
+            </label>
+            <select id="langue" class="form-select" aria-label="Sélection de langue">
+              <option value="auto">Auto</option>
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+              <option value="es">Español</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="taille" class="form-label">
+              Taille
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Longueur souhaitée pour l'email : Court (1-2 paragraphes), Moyen (3-4 paragraphes), Long (5+ paragraphes)"
+                placement="top" triggers="hover" container="body"></i>
+            </label>
+            <select class="form-select" id="taille" aria-label="Sélection de taille">
+              <option selected>Auto</option>
+              <option value="court">Court</option>
+              <option value="moyen">Moyen</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="style" class="form-label">
+              Style
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Style de rédaction : Formel (vouvoiement, langage soutenu), Informel (tutoiement, décontracté), Professionnel (équilibré, respectueux)"
+                placement="top" triggers="hover" container="body"></i>
+              
+            </label>
+            <select class="form-select" id="style" aria-label="Sélection de style">
+              <option selected>Auto</option>
+              <option value="formel">Formel</option>
+              <option value="informel">Informel</option>
+              <option value="professionnel">Professionnel</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="ton" class="form-label">
+              Ton
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Ton à adopter : Amical (chaleureux, bienveillant), Neutre (factuel, objectif), Assertif (direct, confiant)"
+                placement="top" triggers="hover" container="body"></i>
+              
+            </label>
+            <select class="form-select" id="ton" aria-label="Sélection de ton">
+              <option selected>Auto</option>
+              <option value="amical">Amical</option>
+              <option value="neutre">Neutre</option>
+              <option value="assertif">Assertif</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="humeur" class="form-label">
+              Humeur
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Ambiance générale : Positive (optimiste, encourageant), Neutre (équilibré), Sérieuse (grave, important)"
+                placement="top" triggers="hover" container="body"></i>
+  
+            </label>
+            <select class="form-select" id="humeur" aria-label="Sélection d'humeur">
+              <option selected>Auto</option>
+              <option value="positive">Positive</option>
+              <option value="neutre">Neutre</option>
+              <option value="serieuse">Sérieuse</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+            <label for="emoji" class="form-label">
+              Emoji
+              <i class="bi bi-info-circle help-icon"
+                ngbTooltip="Utilisation d'emojis dans l'email : Oui (emojis fréquents), Non (aucun emoji), Modéré (quelques emojis appropriés)"
+                placement="top" triggers="hover" container="body"></i>
+            </label>
+            <select class="form-select" id="emoji" aria-label="Sélection emoji">
+              <option selected>Auto</option>
+              <option value="oui">Oui</option>
+              <option value="non">Non</option>
+              <option value="modere">Modéré</option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="copie">
+          <label class="form-check-label text-white" for="copie">
+            <i class="bi bi-info-circle help-icon me-2"
+              ngbTooltip="Cochez cette case si vous souhaitez recevoir une copie de l'email généré dans votre boîte mail"
+              placement="right" triggers="hover" container="body"></i>
+            M'envoyer une copie de l'email généré
+          </label>
+        </div>
+  
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" class="btn btn-outline-light me-md-2">Réinitialiser</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-magic"></i> Générer l'email
+          </button>
+        </div>
+      </form>
+  
+      <hr class="my-4">
+  
+      <div class="mb-3">
+        <label for="resultat" class="form-label">
+          Email généré
+          <i class="bi bi-info-circle help-icon"
+            ngbTooltip="L'email sera généré ici. Vous pourrez ensuite le copier, le modifier ou le télécharger selon vos besoins"
+            placement="top" triggers="hover" container="body"></i>
+  
+        </label>
+        <textarea class="form-control ai-response" id="resultat" rows="8" readonly
+          placeholder="L'email généré apparaîtra ici..."></textarea>
+        <div class="form-text">Vous pouvez copier et modifier le contenu selon vos besoins.</div>
+      </div>
+  
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-outline-success">
+          <i class="bi bi-clipboard"></i> Copier
+        </button>
+        <button type="button" class="btn btn-outline-warning">
+          <i class="bi bi-download"></i> Télécharger
+        </button>
+      </div>
     </div>
-
-    <!-- Toggle Buttons -->
-    <button class="toggle-btn toggle-left" id="toggleLeft">
-        <i class="fas fa-bars"></i>
-    </button>
-    <button class="toggle-btn toggle-right" id="toggleRight">
-        <i class="fas fa-history"></i>
-    </button>
-
-    <div class="dashboard-container">
-        <!-- Sidebar Left -->
-        <div class="sidebar-left" id="sidebarLeft">
-            <div class="app-item active">
-                <div class="app-icon text-generator">
-                    <i class="fas fa-pencil-alt"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Text Generator</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon image-generator">
-                    <i class="fas fa-image"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Image Generator</div>
-                </div>
-                <span class="badge-new">NEW</span>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon code-generator">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Code Generator</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon image-editor">
-                    <i class="fas fa-edit"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Image Editor</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon video-generator">
-                    <i class="fas fa-video"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Video Generator</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon email-generator">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Email Generator</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon website-generator">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Website Generator</div>
-                </div>
-                <span class="badge-pro">PRO</span>
-            </div>
-
-            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
-
-            <div class="app-item">
-                <div class="app-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Settings</div>
-                </div>
-            </div>
-
-            <div class="app-item">
-                <div class="app-icon">
-                    <i class="fas fa-question-circle"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold">Help & FAQ</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content" id="mainContent">
-            <div class="chat-messages" id="chatMessages">
-                <!-- User Message -->
-                <div class="message">
-                    <div class="message-user">
-                        <div class="message-avatar user-avatar-msg">Y</div>
-                        <div class="message-content">
-                            Write an email to your Office boss for 2 days off
-                        </div>
-                    </div>
-                </div>
-
-                <!-- AI Response -->
-                <div class="message">
-                    <div class="message-user">
-                        <div class="message-avatar ai-avatar-msg">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div class="message-content ai-response">
-                            <div class="fw-bold mb-2">
-                                <i class="fas fa-robot me-2"></i>
-                                AiWave
-                                <span class="badge bg-primary ms-2">AI</span>
-                            </div>
-                            <div class="mb-3">
-                                <strong>Subject: Request for Two-Day Leave</strong>
-                            </div>
-                            <div class="mb-3">Dear [Boss's Name],</div>
-                            <div class="mb-3">
-                                I hope this email finds you well. I am writing to formally request a two-day leave from work on [start date] to [end date]. The reason for my request is [mention the reason briefly, such as personal commitments, family matters, or any other relevant reason].
-                            </div>
-                            <div class="mb-3">
-                                I have ensured that all my current tasks and responsibilities are up to date, and I have briefed [colleague's name or team] about the status of my ongoing projects. I am committed to ensuring a smooth transition during my absence and will make myself available for any necessary handovers or additional information as needed.
-                            </div>
-                            <div class="mb-3">
-                                I understand the importance of my role in the team and will do my best to minimize any disruption caused by my temporary absence. I am confident that my colleagues will be able to handle any urgent matters in my absence, and I will ensure that I am reachable in case of any critical issues that may arise.
-                            </div>
-                            <div class="mb-3">
-                                Thank you for considering my request. I look forward to your approval and will be available to discuss any further details if necessary.
-                            </div>
-                            <div>Best regards,</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chat Input -->
-            <div class="chat-input-container">
-                <div class="chat-input-wrapper">
-                    <textarea class="chat-input" placeholder="Send a message..." rows="1"></textarea>
-                    <button class="send-btn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <div class="text-center mt-2">
-                    <small class="text-muted">AiWave can make mistakes. Consider checking important information.</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Right -->
-        <div class="sidebar-right" id="sidebarRight">
-            <button class="new-chat-btn">
-                <i class="fas fa-plus me-2"></i>
-                NEW CHAT
-            </button>
-
-            <div class="mb-4">
-                <input type="text" class="form-control bg-transparent text-white border-secondary" placeholder="Search Here..." style="border-radius: 12px;">
-            </div>
-
-            <div class="chat-history-date">Today</div>
-            <div class="chat-history-item">
-                <div class="fw-bold mb-1">AiWaveDefination</div>
-                <div class="small text-muted">Your last Question</div>
-            </div>
-            <div class="chat-history-item">
-                <div class="fw-bold mb-1">Business Shortcut Methode</div>
-                <div class="small text-muted">Best way to maintain code Quality</div>
-            </div>
-
-            <div class="chat-history-date mt-4">Yesterday</div>
-            <div class="chat-history-item">
-                <div class="fw-bold mb-1">How to write a code</div>
-                <div class="small text-muted">Form Html CSS JS</div>
-            </div>
-            <div class="chat-history-item">
-                <div class="fw-bold mb-1">HTML Shortcut Methode</div>
-                <div class="small text-muted">Best way to maintain code Quality</div>
-            </div>
-
-            <div class="chat-history-date mt-4">Previous 7 days</div>
-            <div class="chat-history-item">
-                <div class="fw-bold mb-1">User Assistant Request</div>
-                <div class="small text-muted">Function Js</div>
-            </div>
-
-            <div class="text-center mt-4">
-                <button class="btn btn-outline-light btn-sm" style="border-radius: 12px;">
-                    Show More <i class="fas fa-chevron-down ms-1"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  </div>

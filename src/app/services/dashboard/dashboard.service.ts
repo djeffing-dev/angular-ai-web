@@ -74,5 +74,9 @@ export class DashboardService {
     }, 1000);
   }
 
+  get activeApp(): BehaviorSubject<string> {
+    return this.activeAppSubject
+  }
+
   constructor() { }
 }

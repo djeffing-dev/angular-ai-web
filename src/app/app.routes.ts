@@ -3,6 +3,7 @@ import { ConversationComponent } from './pages/conversation/conversation.compone
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 import { EmailComponent } from './pages/email/email.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 export const routes: Routes = [
     {
@@ -21,7 +22,7 @@ export const routes: Routes = [
     },
 
     {
-        path:'dashboard',
-        component: DashboardComponent
+        path:'text-generator',
+        component: ChatComponent
     }
 ];
