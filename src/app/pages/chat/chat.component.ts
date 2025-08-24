@@ -4,11 +4,12 @@ import { DashboardService } from '../../services/dashboard/dashboard.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })

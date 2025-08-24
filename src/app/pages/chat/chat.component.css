@@ -1,0 +1,39 @@
+/* Style pour les icônes d'aide */
+.help-icon {
+    color: #17a2b8;
+    cursor: help;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+.help-icon:hover {
+    color: #138496;
+}
+
+.form-text {
+    color: #adb5bd !important;
+}
+
+/* Style personnalisé pour les tooltips */
+.tooltip .tooltip-inner {
+    max-width: 300px;
+    text-align: left;
+    background-color: #212529;
+    font-size: 0.875rem;
+}
+
+.tooltip .tooltip-arrow::before {
+    border-top-color: #212529;
+}
+
+.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #212529;
+}
+
+.bs-tooltip-start .tooltip-arrow::before {
+    border-left-color: #212529;
+}
+
+.bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: #212529;
+}

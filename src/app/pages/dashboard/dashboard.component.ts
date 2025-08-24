@@ -35,11 +35,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Subscribe to sidebar states
     this.dashboardService.leftSidebarOpen$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(open => this.leftSidebarOpen = open);
+      .subscribe(open => {
+        this.leftSidebarOpen = open;
+        console.log('Left sidebar state changed:', open);
+      });
 
     this.dashboardService.rightSidebarOpen$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(open => this.rightSidebarOpen = open);
+      .subscribe(open => {
+        this.rightSidebarOpen = open;
+        console.log('Right sidebar state changed:', open);
+      });
   }
 
   ngOnDestroy(): void {

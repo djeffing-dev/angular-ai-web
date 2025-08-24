@@ -1,54 +1,67 @@
 <!-- dashboard.component.html -->
 <div class="dashboard-wrapper">
-    <!-- Header -->
-    <div class="top-header d-flex justify-content-between align-items-center">
-      <div class="logo">
-        <i class="fas fa-brain"></i>
-        AiWave
-      </div>
-      <nav class="d-none d-md-flex">
-        <a href="#" class="text-white text-decoration-none mx-3">Home</a>
-        <a href="#" class="text-white text-decoration-none mx-3">Tools</a>
-        <a href="#" class="text-white text-decoration-none mx-3">Pages</a>
-        <a href="#" class="text-white text-decoration-none mx-3">Roadmap</a>
-        <a href="#" class="text-white text-decoration-none mx-3">How to use</a>
-      </nav>
-      <div class="user-profile">
-        <div class="user-avatar">AM</div>
-        <div class="d-none d-md-block">
-          <div class="fw-bold">Adam Milner</div>
-          <div class="small text-muted">adamg-mail.com</div>
-        </div>
-      </div>
+  <!-- Header -->
+  <div class="top-header d-flex justify-content-between align-items-center">
+    <div class="logo">
+      <i class="fas fa-brain"></i>
+      AiWave
     </div>
-  
-    <!-- Toggle Buttons -->
-    <button 
-      class="toggle-btn toggle-left" 
-      (click)="toggleLeftSidebar()"
-      [attr.aria-label]="leftSidebarOpen ? 'Close sidebar' : 'Open sidebar'">
-      <i [class]="leftToggleIcon"></i>
-    </button>
-    
-    <button 
-      class="toggle-btn toggle-right" 
-      (click)="toggleRightSidebar()"
-      [attr.aria-label]="rightSidebarOpen ? 'Close history' : 'Open history'">
-      <i [class]="rightToggleIcon"></i>
-    </button>
-  
-    <div class="dashboard-container">
-      <!-- Sidebar Left -->
-      <app-sidebar-left></app-sidebar-left>
-  
-      <!-- Main Content -->
-      <div 
-        [ngClass]="mainContentClasses" 
-        (click)="onMainContentClick()">
-        <app-chat></app-chat>
+    <nav class="d-none d-md-flex">
+      <a href="#" class="text-white text-decoration-none mx-3">Home</a>
+      <a href="#" class="text-white text-decoration-none mx-3">Tools</a>
+      <a href="#" class="text-white text-decoration-none mx-3">Pages</a>
+      <a href="#" class="text-white text-decoration-none mx-3">Roadmap</a>
+      <a href="#" class="text-white text-decoration-none mx-3">How to use</a>
+    </nav>
+    <div class="user-profile">
+      <div class="user-avatar">AM</div>
+      <div class="d-none d-md-block">
+        <div class="fw-bold">Adam Milner</div>
+        <div class="small text-muted">adamg-mail.com</div>
       </div>
-  
-      <!-- Sidebar Right -->
-      <app-sidebar-right></app-sidebar-right>
     </div>
   </div>
+  
+  <!-- Toggle Buttons -->
+  <button 
+    class="toggle-btn toggle-left"
+    (click)="toggleLeftSidebar()"
+    [attr.aria-label]="leftSidebarOpen ? 'Close sidebar' : 'Open sidebar'">
+    <i [class]="leftToggleIcon"></i>
+  </button>
+  
+  <button 
+    class="toggle-btn toggle-right"
+    (click)="toggleRightSidebar()"
+    [attr.aria-label]="rightSidebarOpen ? 'Close history' : 'Open history'">
+    <i [class]="rightToggleIcon"></i>
+  </button>
+  
+  <!-- Overlay pour fermer au clic sur mobile -->
+  <div 
+    *ngIf="(leftSidebarOpen || rightSidebarOpen) && isMobile" 
+    class="sidebar-overlay"
+    (click)="onMainContentClick()">
+  </div>
+  
+  <div class="dashboard-container">
+    <!-- Sidebar Left -->
+    <app-sidebar-left 
+      [class.sidebar-open]="leftSidebarOpen"
+      [ngStyle]="isMobile ? {'display': leftSidebarOpen ? 'block' : 'none'} : {}">
+    </app-sidebar-left>
+    
+    <!-- Main Content -->
+    <div 
+      [ngClass]="mainContentClasses"
+      (click)="onMainContentClick()">
+      <app-chat></app-chat>
+    </div>
+    
+    <!-- Sidebar Right -->
+    <app-sidebar-right 
+      [class.sidebar-open]="rightSidebarOpen"
+      [ngStyle]="isMobile ? {'display': rightSidebarOpen ? 'block' : 'none'} : {}">
+    </app-sidebar-right>
+  </div>
+</div>
