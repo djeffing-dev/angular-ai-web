@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiWave Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div class="top-header d-flex justify-content-between align-items-center">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            AiWave
+        </div>
+        <nav class="d-none d-md-flex">
+            <a href="#" class="text-white text-decoration-none mx-3">Home</a>
+            <a href="#" class="text-white text-decoration-none mx-3">Tools</a>
+            <a href="#" class="text-white text-decoration-none mx-3">Pages</a>
+            <a href="#" class="text-white text-decoration-none mx-3">Roadmap</a>
+            <a href="#" class="text-white text-decoration-none mx-3">How to use</a>
+        </nav>
+        <div class="user-profile">
+            <div class="user-avatar">AM</div>
+            <div class="d-none d-md-block">
+                <div class="fw-bold">Adam Milner</div>
+                <div class="small text-muted">adamgmail.com</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Buttons -->
+    <button class="toggle-btn toggle-left" id="toggleLeft">
+        <i class="fas fa-bars"></i>
+    </button>
+    <button class="toggle-btn toggle-right" id="toggleRight">
+        <i class="fas fa-history"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Left -->
+        <div class="sidebar-left" id="sidebarLeft">
+            <div class="app-item active">
+                <div class="app-icon text-generator">
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Text Generator</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon image-generator">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Image Generator</div>
+                </div>
+                <span class="badge-new">NEW</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon code-generator">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Code Generator</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon image-editor">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Image Editor</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon video-generator">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Video Generator</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon email-generator">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Email Generator</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon website-generator">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Website Generator</div>
+                </div>
+                <span class="badge-pro">PRO</span>
+            </div>
+
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+
+            <div class="app-item">
+                <div class="app-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Settings</div>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold">Help & FAQ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <div class="chat-messages" id="chatMessages">
+                <!-- User Message -->
+                <div class="message">
+                    <div class="message-user">
+                        <div class="message-avatar user-avatar-msg">Y</div>
+                        <div class="message-content">
+                            Write an email to your Office boss for 2 days off
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Response -->
+                <div class="message">
+                    <div class="message-user">
+                        <div class="message-avatar ai-avatar-msg">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="message-content ai-response">
+                            <div class="fw-bold mb-2">
+                                <i class="fas fa-robot me-2"></i>
+                                AiWave
+                                <span class="badge bg-primary ms-2">AI</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Subject: Request for Two-Day Leave</strong>
+                            </div>
+                            <div class="mb-3">Dear [Boss's Name],</div>
+                            <div class="mb-3">
+                                I hope this email finds you well. I am writing to formally request a two-day leave from work on [start date] to [end date]. The reason for my request is [mention the reason briefly, such as personal commitments, family matters, or any other relevant reason].
+                            </div>
+                            <div class="mb-3">
+                                I have ensured that all my current tasks and responsibilities are up to date, and I have briefed [colleague's name or team] about the status of my ongoing projects. I am committed to ensuring a smooth transition during my absence and will make myself available for any necessary handovers or additional information as needed.
+                            </div>
+                            <div class="mb-3">
+                                I understand the importance of my role in the team and will do my best to minimize any disruption caused by my temporary absence. I am confident that my colleagues will be able to handle any urgent matters in my absence, and I will ensure that I am reachable in case of any critical issues that may arise.
+                            </div>
+                            <div class="mb-3">
+                                Thank you for considering my request. I look forward to your approval and will be available to discuss any further details if necessary.
+                            </div>
+                            <div>Best regards,</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea class="chat-input" placeholder="Send a message..." rows="1"></textarea>
+                    <button class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="text-center mt-2">
+                    <small class="text-muted">AiWave can make mistakes. Consider checking important information.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Right -->
+        <div class="sidebar-right" id="sidebarRight">
+            <button class="new-chat-btn">
+                <i class="fas fa-plus me-2"></i>
+                NEW CHAT
+            </button>
+
+            <div class="mb-4">
+                <input type="text" class="form-control bg-transparent text-white border-secondary" placeholder="Search Here..." style="border-radius: 12px;">
+            </div>
+
+            <div class="chat-history-date">Today</div>
+            <div class="chat-history-item">
+                <div class="fw-bold mb-1">AiWaveDefination</div>
+                <div class="small text-muted">Your last Question</div>
+            </div>
+            <div class="chat-history-item">
+                <div class="fw-bold mb-1">Business Shortcut Methode</div>
+                <div class="small text-muted">Best way to maintain code Quality</div>
+            </div>
+
+            <div class="chat-history-date mt-4">Yesterday</div>
+            <div class="chat-history-item">
+                <div class="fw-bold mb-1">How to write a code</div>
+                <div class="small text-muted">Form Html CSS JS</div>
+            </div>
+            <div class="chat-history-item">
+                <div class="fw-bold mb-1">HTML Shortcut Methode</div>
+                <div class="small text-muted">Best way to maintain code Quality</div>
+            </div>
+
+            <div class="chat-history-date mt-4">Previous 7 days</div>
+            <div class="chat-history-item">
+                <div class="fw-bold mb-1">User Assistant Request</div>
+                <div class="small text-muted">Function Js</div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-light btn-sm" style="border-radius: 12px;">
+                    Show More <i class="fas fa-chevron-down ms-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

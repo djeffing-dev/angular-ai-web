@@ -1,0 +1,39 @@
+<div class="sidebar-left" [class.collapsed]="!isOpen">
+    <div 
+      class="app-item" 
+      [class.active]="app.id === activeAppId"
+      *ngFor="let app of appItems"
+      (click)="selectApp(app.id)">
+      <div class="app-icon" [ngClass]="app.iconClass">
+        <i [class]="app.icon"></i>
+      </div>
+      <div class="flex-grow-1">
+        <div class="fw-bold">{{ app.name }}</div>
+      </div>
+      <span 
+        *ngIf="app.badge" 
+        [class]="'badge-' + app.badge.toLowerCase()">
+        {{ app.badge }}
+      </span>
+    </div>
+
+    <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+
+    <div class="app-item" (click)="selectApp('settings')">
+      <div class="app-icon">
+        <i class="fas fa-cog"></i>
+      </div>
+      <div class="flex-grow-1">
+        <div class="fw-bold">Settings</div>
+      </div>
+    </div>
+
+    <div class="app-item" (click)="selectApp('help')">
+      <div class="app-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="flex-grow-1">
+        <div class="fw-bold">Help & FAQ</div>
+      </div>
+    </div>
+  </div>
