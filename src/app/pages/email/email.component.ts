@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { EmailRequest } from '../../models/emailRequest';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'; // Import spécifique
+import { jsPDF } from 'jspdf'; // Pour mettre au utilisateur de detelecharger les documents via pdf
+import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
 
 @Component({
   selector: 'app-email',
@@ -33,6 +35,7 @@ export class EmailComponent {
 
   resultat:string = "";
   isLoading : boolean = false;
+  copied:boolean =false;
 
   constructor(private emailGeneratorService: EmailGeneratorService){}
 
@@ -45,6 +48,40 @@ export class EmailComponent {
       }
     })
     
+  }
+
+  copyText = ():void =>{
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(this.resultat)
+      .then(()=> {
+        this.copied = true;
+        setTimeout(()=> this.copied = false, 2000);
+      })
+      .catch(err => console.error("Erreur de copie : ", err))
+    
+    }else{
+      console.error("API Clipboard non supportée");
+    }
+  }
+
+  downloadPDF():void{
+    const doc = new jsPDF();
+    // Titre
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("📄 Résultat de génération", 10, 15);
+
+
+    // Contenu
+    doc.setFont("helvetica", "normal");
+    doc.setFont("callAddFont"); // nouvelle police avec emojis
+    doc.setFontSize(12);
+
+    // Gérer le multi-lignes
+    const lines = doc.splitTextToSize(this.resultat, 180); // 180mm largeur max
+    doc.text(lines, 10, 30);
+    
+    doc.save("eamail.pdf"); // déclenche le téléchargement
   }
 
 
