@@ -1,7 +1,7 @@
 <div class="chat-messages ai-response">
     <div class="chat-input-container  card text-white p-4">
       <h4 class="mb-4">Générateur d'email IA</h4>
-      <form>
+      <form #loginForm="ngForm" (ngSubmit)="generateEmail()">
         <div class="row">
           <div class="col-lg-6 mb-3">
             <label for="nom" class="form-label">
@@ -11,7 +11,7 @@
                 placement="top" triggers="hover" container="body">
               </i>
             </label>
-            <input type="text" class="form-control" id="nom" aria-describedby="nomHelp">
+            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="nomHelp" [(ngModel)]="emailRequest.nom" required>
             <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
           </div>
           <div class="col-lg-6 mb-3">
@@ -21,7 +21,7 @@
                 ngbTooltip="Nom ou adresse email de la personne qui recevra votre message" placement="top"
                 triggers="hover" container="body"></i>
             </label>
-            <input type="text" class="form-control" id="destinataire">
+            <input type="text" class="form-control" id="destinataire" name="destinataire" [(ngModel)]="emailRequest.destinataire" required>
           </div>
         </div>
   
@@ -33,7 +33,7 @@
               placement="top" triggers="hover" container="body"></i>
   
           </label>
-          <input type="text" class="form-control" id="objet" aria-describedby="objetHelp">
+          <input type="text" class="form-control" id="objet" name="objet" aria-describedby="objetHelp" [(ngModel)]="emailRequest.objet">
           <div id="objetHelp" class="form-text">Un objet clair améliore les chances d'ouverture.</div>
         </div>
   
@@ -44,7 +44,7 @@
               ngbTooltip="Décrivez la situation actuelle, les antécédents ou les éléments de contexte nécessaires à la compréhension de votre demande"
               placement="top" triggers="hover" container="body"></i>
           </label>
-          <input type="text" class="form-control" id="contexte" aria-describedby="contexteHelp">
+          <input type="text" class="form-control" id="contexte" aria-describedby="contexteHelp" name="contexte" [(ngModel)]="emailRequest.context" required>
           <div id="contexteHelp" class="form-text">Donnez le contexte pour une meilleure compréhension.</div>
         </div>
   
@@ -55,7 +55,7 @@
               ngbTooltip="Quel est le but de cet email ? Que voulez-vous obtenir comme réponse ou action de la part du destinataire ?"
               placement="top" triggers="hover" container="body"></i>
           </label>
-          <input type="text" class="form-control" id="objectif" aria-describedby="objectifHelp">
+          <input type="text" class="form-control" id="objectif" aria-describedby="objectifHelp" required>
           <div id="objectifHelp" class="form-text">Définissez clairement ce que vous attendez.</div>
         </div>
   
@@ -67,7 +67,7 @@
                 ngbTooltip="Choisissez la langue dans laquelle l'email doit être rédigé. 'Auto' détectera automatiquement la langue appropriée"
                 placement="top" triggers="hover" container="body"></i>
             </label>
-            <select id="langue" class="form-select" aria-label="Sélection de langue">
+            <select id="langue" name="langue" class="form-select" aria-label="Sélection de langue" [(ngModel)]="emailRequest.langue">
               <option value="auto">Auto</option>
               <option value="fr">Français</option>
               <option value="en">English</option>
@@ -81,7 +81,7 @@
                 ngbTooltip="Longueur souhaitée pour l'email : Court (1-2 paragraphes), Moyen (3-4 paragraphes), Long (5+ paragraphes)"
                 placement="top" triggers="hover" container="body"></i>
             </label>
-            <select class="form-select" id="taille" aria-label="Sélection de taille">
+            <select class="form-select" id="taille" name="taille" aria-label="Sélection de taille" [(ngModel)]="emailRequest.taille">
               <option selected>Auto</option>
               <option value="court">Court</option>
               <option value="moyen">Moyen</option>
@@ -96,8 +96,8 @@
                 placement="top" triggers="hover" container="body"></i>
               
             </label>
-            <select class="form-select" id="style" aria-label="Sélection de style">
-              <option selected>Auto</option>
+            <select class="form-select" id="style" name="style" aria-label="Sélection de style" [(ngModel)]="emailRequest.style">
+              <option value="auto" selected>Auto</option>
               <option value="formel">Formel</option>
               <option value="informel">Informel</option>
               <option value="professionnel">Professionnel</option>
@@ -111,8 +111,8 @@
                 placement="top" triggers="hover" container="body"></i>
               
             </label>
-            <select class="form-select" id="ton" aria-label="Sélection de ton">
-              <option selected>Auto</option>
+            <select class="form-select" id="ton" name="ton" aria-label="Sélection de ton" [(ngModel)]="emailRequest.ton">
+              <option value="auto" selected>Auto</option>
               <option value="amical">Amical</option>
               <option value="neutre">Neutre</option>
               <option value="assertif">Assertif</option>
@@ -126,8 +126,8 @@
                 placement="top" triggers="hover" container="body"></i>
   
             </label>
-            <select class="form-select" id="humeur" aria-label="Sélection d'humeur">
-              <option selected>Auto</option>
+            <select class="form-select" id="humeur" name="humer" aria-label="Sélection d'humeur" [(ngModel)]="emailRequest.humer">
+              <option value="auto" selected>Auto</option>
               <option value="positive">Positive</option>
               <option value="neutre">Neutre</option>
               <option value="serieuse">Sérieuse</option>
@@ -140,8 +140,8 @@
                 ngbTooltip="Utilisation d'emojis dans l'email : Oui (emojis fréquents), Non (aucun emoji), Modéré (quelques emojis appropriés)"
                 placement="top" triggers="hover" container="body"></i>
             </label>
-            <select class="form-select" id="emoji" aria-label="Sélection emoji">
-              <option selected>Auto</option>
+            <select class="form-select" id="emoji" name="emoji" aria-label="Sélection emoji" [(ngModel)]="emailRequest.emoji">
+              <option value="auto" selected>Auto</option>
               <option value="oui">Oui</option>
               <option value="non">Non</option>
               <option value="modere">Modéré</option>
@@ -149,21 +149,39 @@
           </div>
         </div>
   
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="copie">
-          <label class="form-check-label text-white" for="copie">
-            <i class="bi bi-info-circle help-icon me-2"
-              ngbTooltip="Cochez cette case si vous souhaitez recevoir une copie de l'email généré dans votre boîte mail"
-              placement="right" triggers="hover" container="body"></i>
-            M'envoyer une copie de l'email généré
-          </label>
-        </div>
+        <!--
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="copie">
+            <label class="form-check-label text-white" for="copie">
+              <i class="bi bi-info-circle help-icon me-2"
+                ngbTooltip="Cochez cette case si vous souhaitez recevoir une copie de l'email généré dans votre boîte mail"
+                placement="right" triggers="hover" container="body"></i>
+              M'envoyer une copie de l'email généré
+            </label>
+          </div>
+        -->
   
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="button" class="btn btn-outline-light me-md-2">Réinitialiser</button>
-          <button type="submit" class="btn btn-primary">
+          
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" *ngIf="isLoading==false">
             <i class="bi bi-magic"></i> Générer l'email
           </button>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" *ngIf="isLoading==true">
+            <div class="spinner-grow" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button type="reset" class="btn btn-outline-light me-md-2" >Réinitialiser</button>
+
+
+          <!--<button class="btn btn-primary fw-medium px-5" type="submit" [disabled]="!loginForm.valid" *ngIf="spinner == true" disabled>
+            <div class="spinner-border"></div>
+          </button> 
+
+          <button class="btn btn-primary fw-medium px-5" type="submit" [disabled]="!loginForm.valid"  *ngIf="spinner == false">
+            Submit & Preview
+          </button>-->
         </div>
       </form>
   
@@ -177,7 +195,7 @@
             placement="top" triggers="hover" container="body"></i>
   
         </label>
-        <textarea class="form-control ai-response" id="resultat" rows="8" readonly
+        <textarea class="form-control ai-response" id="resultat" rows="8" readonly name="resultat" [(ngModel)]="resultat"
           placeholder="L'email généré apparaîtra ici..."></textarea>
         <div class="form-text">Vous pouvez copier et modifier le contenu selon vos besoins.</div>
       </div>
