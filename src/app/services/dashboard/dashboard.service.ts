@@ -44,7 +44,7 @@ export class DashboardService {
   ]);
 
   // Application active dans le tableau de bord (ex : générateur de texte)
-  private activeAppSubject = new BehaviorSubject<string>('text-generator');
+  private activeAppSubject = new BehaviorSubject<string>('');
 
   /**
    * === OBSERVABLES PUBLICS ===

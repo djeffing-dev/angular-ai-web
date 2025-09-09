@@ -59,7 +59,7 @@
             ngbTooltip="Quel est le but de cet email ? Que voulez-vous obtenir comme réponse ou action de la part du destinataire ?"
             placement="top" triggers="hover" container="body"></i>
         </label>
-        <input type="text" class="form-control" id="objectif" aria-describedby="objectifHelp" required>
+        <input type="text" class="form-control" id="objectif" name="objectif" aria-describedby="objectifHelp" [(ngModel)]="emailRequest.objectif" required>
         <div id="objectifHelp" class="form-text">Définissez clairement ce que vous attendez.</div>
       </div>
 

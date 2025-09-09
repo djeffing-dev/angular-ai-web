@@ -2,23 +2,27 @@
 import { DashboardService } from './../../services/dashboard/dashboard.service';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs'; // Subject = outil de désabonnement, takeUntil = opérateur RxJS
-import { SidebarLeftComponent } from "../sidebar-left/sidebar-left.component";
-import { SidebarRightComponent } from "../sidebar-right/sidebar-right.component";
+import { SidebarLeftComponent } from '../layouts/sidebar-left/sidebar-left.component';
+import { SidebarRightComponent } from '../layouts/sidebar-right/sidebar-right.component'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatComponent } from "../chat/chat.component";
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from "../layouts/header/header.component";
+import { LoginComponent } from "../auth/login/login.component";
 
 @Component({
   selector: 'app-dashboard', // Nom du composant pour être utilisé dans le HTML
   standalone: true,          // Permet d'utiliser le composant sans module Angular global
-  imports: [                 // Les dépendances Angular/Composants nécessaires
+  imports: [
     SidebarLeftComponent,
     SidebarRightComponent,
     CommonModule,
     FormsModule,
-    RouterOutlet
-  ],
+    RouterOutlet,
+    HeaderComponent,
+    LoginComponent
+],
   templateUrl: './dashboard.component.html', // Vue associée
   styleUrl: './dashboard.component.css'      // Styles associés
 })
@@ -35,9 +39,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isMobile = false;
 
   // Injection du DashboardService
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService,
+    private router: Router
+  ) {
     // Vérifie la taille de l’écran dès la création du composant
     this.checkScreenSize();
+
+    this.router.events.subscribe(event =>{
+      if(event instanceof NavigationEnd){
+        const url = event.urlAfterRedirects;
+        
+        const appName = url.split('/').pop() || '';
+        this.dashboardService.setActiveApp(appName);
+      }
+    })
   }
 
   // ----------- Cycle de vie Angular ------------

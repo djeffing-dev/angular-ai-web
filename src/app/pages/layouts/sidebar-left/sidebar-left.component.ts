@@ -1,6 +1,6 @@
-import { AppItem } from './../../../interfaces/AppItem';
+import { AppItem } from '../../../../interfaces/AppItem';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DashboardService } from '../../services/dashboard/dashboard.service';
+import { DashboardService } from '../../../services/dashboard/dashboard.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
 
   appItems: AppItem[] = [
     {
-      id: 'text-generator',
+      id: '',
       name: 'Text Generator',
       icon: 'fas fa-pencil-alt',
       iconClass: 'text-generator',

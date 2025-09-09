@@ -7,7 +7,12 @@ import { ChatComponent } from './pages/chat/chat.component';
 
 export const routes: Routes = [
     {
-        path : '',
+        path:'',
+        component: ChatComponent
+    },
+    
+    {
+        path : 'roadmap-generator',
         component : RoadmapComponent
     },
     
@@ -20,9 +25,4 @@ export const routes: Routes = [
         path:'email-generator',
         component:EmailComponent
     },
-
-    {
-        path:'text-generator',
-        component: ChatComponent
-    }
 ];

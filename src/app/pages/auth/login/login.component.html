@@ -1,0 +1,59 @@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> <!-- centré verticalement -->
+        <div class="modal-content shadow-lg border-0 rounded-4">
+
+            <!-- Header -->
+            <div class="modal-header border-0 ">
+                <h5 class="modal-title fw-bold text-primary text-center" id="loginModalLabel">Connexion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body px-4">
+                <form (submit)="login()" #loginForm="ngForm">
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control rounded-3" id="email" placeholder="Entrez votre email" name="email" [(ngModel)]="loginRequest.email" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-2">
+                        <label for="password" class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" class="form-control rounded-3" id="password"
+                            placeholder="Entrez votre mot de passe" name="password" [(ngModel)]="loginRequest.password" required>
+                    </div>
+
+                    <!-- Lien mot de passe oublié -->
+                    <div class="mb-4 text-start">
+                        <a href="#" class="text-decoration-none small text-primary">Mot de passe oublié ?</a>
+                    </div>
+
+                    <!-- Bouton se connecter centré -->
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary rounded-3 fw-semibold"
+                            [disabled]="!loginForm.valid" *ngIf="isLoading==false">
+                            Se connecter
+                        </button>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary rounded-3 fw-semibold"
+                            [disabled]="!loginForm.valid" *ngIf="isLoading==true">
+                            <div class="spinner-grow" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Lien créer un compte -->
+                <div class="text-center">
+                    <span class="small">Pas de compte ?
+                        <a href="#" class="text-decoration-none text-success fw-semibold">Créez-en un</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
