@@ -1,7 +1,7 @@
 <div class="chat-messages ai-response">
   <div class="chat-input-container  card text-white p-4">
     <h4 class="mb-4">Générateur d'email IA</h4>
-    <form #loginForm="ngForm" (ngSubmit)="generateEmail()">
+    <form #loginForm="ngForm" (ngSubmit)="(isCreate)? generateEmail() : updateEmail()">
       <div class="row">
         <div class="col-lg-6 mb-3">
           <label for="nom" class="form-label">
@@ -13,6 +13,8 @@
           </label>
           <input type="text" class="form-control" id="nom" name="nom" aria-describedby="nomHelp"
             [(ngModel)]="emailRequest.nom" required>
+            <input type="text" class="form-control" id="id" name="id" aria-describedby="nomHelp"
+            [(ngModel)]="id" required hidden>
           <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
         </div>
         <div class="col-lg-6 mb-3">
@@ -172,16 +174,20 @@
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" *ngIf="isLoading==false">
-          <i class="bi bi-magic"></i> Générer l'email
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==false">
+          <i class="bi bi-magic"></i>{{ isCreate? "Générer l'email" : "Modifier l'email" }}
         </button>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" *ngIf="isLoading==true">
+        <!-- <button type="submit" class="btn btn-warning" [disabled]="!loginForm.valid" *ngIf="isLoading==false && (!isCreate)">
+          <i class="bi bi-magic"></i> Modifier l'email
+        </button> -->
+
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==true">
           <div class="spinner-grow" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </button>
-        <button type="reset" class="btn btn-outline-light me-md-2">Réinitialiser</button>
+        <button type="button" (click)="resetComponent()" class="btn btn-outline-light me-md-2">Réinitialiser</button>
 
 
         <!--<button class="btn btn-primary fw-medium px-5" type="submit" [disabled]="!loginForm.valid" *ngIf="spinner == true" disabled>

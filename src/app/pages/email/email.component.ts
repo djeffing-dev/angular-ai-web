@@ -1,4 +1,4 @@
-import { Component, ViewChild,Inject, OnInit } from '@angular/core';
+import { Component, ViewChild, Inject, OnInit } from '@angular/core';
 import { EmailGeneratorService } from '../../services/email/email-generator.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -7,8 +7,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'; // Import spécif
 import { jsPDF } from 'jspdf'; // Pour mettre au utilisateur de detelecharger les documents via pdf
 import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
 import { ToastrService } from 'ngx-toastr';
-import { EmailGenerator } from '../../models/emailGenerator';
 import { Subject, takeUntil } from 'rxjs';
+import { isUserConnected } from '../../const/const';
 import { right } from '@popperjs/core';
 
 @Component({
@@ -21,10 +21,10 @@ import { right } from '@popperjs/core';
   templateUrl: './email.component.html',
   styleUrl: './email.component.css'
 })
-export class EmailComponent implements OnInit{
-  @ViewChild("loginForm") loginForm!:NgForm;
-  id!:number;
-  emailRequest : EmailRequest = {
+export class EmailComponent implements OnInit {
+  @ViewChild("loginForm") loginForm!: NgForm;
+  id!: number | null;
+  emailRequest: EmailRequest = {
     nom: "",
     destinataire: "",
     objet: "",
@@ -39,67 +39,148 @@ export class EmailComponent implements OnInit{
   };
 
   private destroy$ = new Subject<void>();
-  resultat:string = "";
-  isLoading : boolean = false;
-  copied:boolean =false;
+  resultat: string = "";
+  isLoading: boolean = false;
+  isCreate!: boolean;
+  copied: boolean = false;
 
   constructor(
     private emailGeneratorService: EmailGeneratorService,
     @Inject(ToastrService) private toastr: ToastrService
-  ){}
+  ) { }
 
   ngOnInit(): void {
-     // Abonnement à l'email selectionner "emailSelected$" depuis le service
+    // Abonnement à l'email selectionner "emailSelected$" depuis le service
     this.emailGeneratorService.emailSelected$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(currentEmail=>{
-      
-      this.id = currentEmail.id;
-      this.emailRequest = {
-        nom: currentEmail.nom,
-        destinataire: currentEmail.destinataire,
-        objet: currentEmail.objet,
-        context: currentEmail.context,
-        objectif: currentEmail.objectif,
-        langue: currentEmail.langue,
-        taille: currentEmail.taille,
-        style: currentEmail.style,
-        ton: currentEmail.ton,
-        humer: currentEmail.humer,
-        emoji: currentEmail.emoji
-      };
-      this.resultat = currentEmail.content;
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(currentEmail => {
 
-    });
+        this.id = currentEmail.id;
+        this.isCreate = (this.id == null || this.id == undefined) // si l'id prend une valeur alors l'utilisateur veux faire une mise a jour
 
+        if (currentEmail.id != undefined) {
+          this.emailRequest = {
+            nom: currentEmail.nom,
+            destinataire: currentEmail.destinataire,
+            objet: currentEmail.objet,
+            context: currentEmail.context,
+            objectif: currentEmail.objectif,
+            langue: currentEmail.langue,
+            taille: currentEmail.taille,
+            style: currentEmail.style,
+            ton: currentEmail.ton,
+            humer: currentEmail.humer,
+            emoji: currentEmail.emoji
+          };
+          this.resultat = currentEmail.content;
+        }
+      });
   }
 
-  generateEmail = () =>{
+  resetComponent(): void {
+    console.log("resetComponent");
+    this.id = null;
+    this.isCreate = (this.id==null || this.id==undefined)
+    this.emailRequest = {
+      nom: "",
+      destinataire: "",
+      objet: "",
+      context: "",
+      objectif: "",
+      langue: "fr",
+      taille: "moyen",
+      style: "auto",
+      ton: "neutre",
+      humer: "neutre",
+      emoji: "modere"
+    };
+    this.resultat = "";
+  }
+
+
+  generateEmail = () => {
     this.isLoading = true;
-    console.log("Le model email que l'utilisateur a crée : ", this.emailRequest);
-    this.emailGeneratorService.feshfreeEmail(this.emailRequest).subscribe({
-      next: result => {this.resultat = result
+    (isUserConnected()) ? this.generateAuthenticateEmail() : this.generateFreeEmail()
+  }
+
+  // Generer des emails gratuitements
+  generateFreeEmail() {
+    console.log("L'utilisateur non connecter --->");
+    this.emailGeneratorService.feshGenerateFreeEmail(this.emailRequest).subscribe({
+      next: result => {
+        this.resultat = result
+        this.isLoading = false;
+      },
+
+      error: err => {
+        console.error("Une erreur c'est produite : ", err.message);
+        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
+          timeOut: 5000,
+          positionClass: 'toast-top-right'
+        });
         this.isLoading = false;
       }
     })
-    
   }
 
-  copyText = ():void =>{
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(this.resultat)
-      .then(()=> {
-        this.copied = true;
-        setTimeout(()=> this.copied = false, 2000);
+  // Generer les emails d'un utilisateurs connecter,
+  generateAuthenticateEmail() {
+    console.log("---> L'utilisateur connecter connecter --->");
+    this.emailGeneratorService.feshGenerateAuthenticateEmaill(this.emailRequest).subscribe({
+      next: result => {
+        this.resultat = result
+        this.isLoading = false;
+      },
+
+      error: err => {
+        console.error("Une erreur c'est produite : ", err.message);
+        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
+          timeOut: 5000,
+          positionClass: 'toast-top-right'
+        });
+        this.isLoading = false;
+      }
+    })
+  }
+
+  // Generer et mettre a jour l'email de l'utilisateur
+  updateEmail() {
+    if (this.id != null) {
+      this.isLoading = true;
+      console.log("---> Mettre a jour l'email de l'utilisateur connecter connecter --->");
+      this.emailGeneratorService.feshUpdateEmaill(this.id, this.emailRequest).subscribe({
+        next: result => {
+          this.resultat = result
+          this.isLoading = false;
+        },
+
+        error: err => {
+          console.error("Une erreur c'est produite : ", err.message);
+          this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          });
+          this.isLoading = false;
+        }
       })
-      .catch(err => console.error("Erreur de copie : ", err))
-    
-    }else{
+    }
+  }
+
+  copyText = (): void => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(this.resultat)
+        .then(() => {
+          this.copied = true;
+          setTimeout(() => this.copied = false, 2000);
+        })
+        .catch(err => console.error("Erreur de copie : ", err))
+
+    } else {
       console.error("API Clipboard non supportée");
     }
   }
 
-  downloadPDF():void{
+  downloadPDF(): void {
     const doc = new jsPDF();
     // Titre
     doc.setFont("helvetica", "bold");
@@ -115,7 +196,7 @@ export class EmailComponent implements OnInit{
     // Gérer le multi-lignes
     const lines = doc.splitTextToSize(this.resultat, 180); // 180mm largeur max
     doc.text(lines, 10, 30);
-    
+
     doc.save("eamail.pdf"); // déclenche le téléchargement
   }
 

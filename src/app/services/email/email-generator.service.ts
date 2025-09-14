@@ -14,20 +14,30 @@ export class EmailGeneratorService {
   url = `${baseUrl}/gpt`;
   url2 = `${baseUrl}/emailGenrator`
   private emailSelected = new BehaviorSubject<EmailGenerator>({} as EmailGenerator)
-  
+
   constructor(private http: HttpClient) { }
 
   public emailSelected$: Observable<EmailGenerator> = this.emailSelected.asObservable();
-  setEmailSelected(emailGenerator: EmailGenerator){
+  setEmailSelected(emailGenerator: EmailGenerator) {
     this.emailSelected.next(emailGenerator);
   }
 
-  feshfreeEmail = (emailRequest :EmailRequest):Observable<string> =>{
+  feshGenerateFreeEmail = (emailRequest: EmailRequest): Observable<string> => {
     return this.http.post<string>(`${this.url}/emailGenerator-admin-free`, emailRequest, { responseType: 'text' as 'json' });
   }
 
+  // Generer les email avec le token de l'utilisateur
+  feshGenerateAuthenticateEmaill = (emailRequest: EmailRequest): Observable<string> => {
+    return this.http.post<string>(`${this.url2}`, emailRequest, { ...httpOption(), responseType: 'text' as 'json' });
+  }
+
+  // Mettre a jour l'email d'un utilisateur
+  feshUpdateEmaill = (id:number, emailRequest: EmailRequest): Observable<string> => {
+    return this.http.put<string>(`${this.url2}?id=${id}`, emailRequest, { ...httpOption(), responseType: 'text' as 'json' });
+  }
+
   // Obtenir la liste des email d'un utlisateur auhtentifier.
-  findEmailByUserToken = ():Observable<EmailGenerator[]> =>{
+  findEmailByUserToken = (): Observable<EmailGenerator[]> => {
     return this.http.get<EmailGenerator[]>(`${this.url2}/findByUserToken`, httpOption())
   }
 }

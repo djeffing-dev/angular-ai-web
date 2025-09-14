@@ -14,7 +14,7 @@
     <div class="chat-history-date">Today</div>
     <div class="chat-history-item" *ngFor="let item of todayItems" (click)="selectChat(item)">
       <div class="fw-bold mb-1">{{ item.title }}</div>
-      <div class="small text-muted">{{ item.preview }}</div>
+      <!-- <div class="small text-muted">{{ item.preview }}</div> -->
     </div>
   </div>
 
@@ -22,7 +22,7 @@
     <div class="chat-history-date mt-4">Yesterday</div>
     <div class="chat-history-item" *ngFor="let item of yesterdayItems" (click)="selectChat(item)">
       <div class="fw-bold mb-1">{{ item.title }}</div>
-      <div class="small text-muted">{{ item.preview }}</div>
+      <!-- <div class="small text-muted">{{ item.preview }}</div> -->
     </div>
   </div>
 
@@ -30,7 +30,7 @@
     <div class="chat-history-date mt-4">Previous 7 days</div>
     <div class="chat-history-item" *ngFor="let item of weekItems" (click)="selectChat(item)">
       <div class="fw-bold mb-1">{{ item.title }}</div>
-      <div class="small text-muted">{{ item.preview }}</div>
+      <!-- <div class="small text-muted">{{ item.preview }}</div> -->
     </div>
   </div>
  
