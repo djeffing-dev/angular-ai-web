@@ -10,6 +10,7 @@ import { ChatComponent } from "../chat/chat.component";
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../layouts/header/header.component";
 import { LoginComponent } from "../auth/login/login.component";
+import { SignupComponent } from "../auth/signup/signup.component";
 
 @Component({
   selector: 'app-dashboard', // Nom du composant pour être utilisé dans le HTML
@@ -21,7 +22,8 @@ import { LoginComponent } from "../auth/login/login.component";
     FormsModule,
     RouterOutlet,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
 ],
   templateUrl: './dashboard.component.html', // Vue associée
   styleUrl: './dashboard.component.css'      // Styles associés

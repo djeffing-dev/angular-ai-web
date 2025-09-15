@@ -4,6 +4,7 @@ import { DashboardService } from '../../../services/dashboard/dashboard.service'
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { isUserConnected } from '../../../const/const';
 
 @Component({
   selector: 'app-sidebar-left',
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
 })
 export class SidebarLeftComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  isUserConnected:boolean = isUserConnected();
+  
   
   isOpen = false;
   activeAppId = '';
@@ -94,5 +97,11 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
   selectApp(appId: string): void {
     this.dashboardService.setActiveApp(appId);
     this.router.navigate([appId]);
+  }
+
+  logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user")
+    window.location.reload();
   }
 }

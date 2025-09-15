@@ -16,6 +16,10 @@
         {{ app.badge }}
       </span>
     </div>
+    <div class="d-grid gap-2 col-6 mx-auto" *ngIf="isUserConnected">
+      <button class="btn btn-danger" (click)="logout()">Logout</button>
+    </div>
+
 
     <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
 

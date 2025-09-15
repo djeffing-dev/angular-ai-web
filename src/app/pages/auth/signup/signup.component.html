@@ -1,1 +1,90 @@
-<p>signup works!</p>
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg border-0 rounded-4">
+  
+        <!-- Header -->
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold text-primary text-center" id="signupModalLabel">
+            Création de Compte
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+  
+        <!-- Body -->
+        <div class="modal-body px-4">
+          <!-- ✅ Utilisation de ngSubmit + action="" -->
+          <form (ngSubmit)="signup()" #signupForm="ngForm" action="">
+            
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="username" class="form-label fw-semibold">Nom d'utilisateur</label>
+              <input type="text" class="form-control rounded-3" id="username"
+                name="username"
+                placeholder="Entrez votre Nom d'utilisateur"
+                [(ngModel)]="registerRequest.username"
+                autocomplete="username"
+                required>
+            </div>
+  
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email-signup" class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control rounded-3" id="email-signup"
+                name="email"
+                placeholder="Entrez votre email"
+                [(ngModel)]="registerRequest.email"
+                autocomplete="email"
+                required>
+            </div>
+  
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password-signup" class="form-label fw-semibold">Mot de passe</label>
+              <input type="password" class="form-control rounded-3" id="password-signup"
+                name="password"
+                placeholder="Entrez votre mot de passe"
+                [(ngModel)]="registerRequest.password"
+                autocomplete="new-password"
+                required>
+            </div>
+  
+            <!-- Password confirm -->
+            <div class="mb-2">
+              <label for="password-confirm" class="form-label fw-semibold">Confirmez le mot de passe</label>
+              <input type="password" class="form-control rounded-3" id="password-confirm"
+                name="passwordConfirm"
+                placeholder="Confirmez votre mot de passe"
+                [(ngModel)]="passwordConfirm"
+                autocomplete="new-password"
+                required>
+            </div>
+  
+            <!-- Bouton créer un compte -->
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary rounded-3 fw-semibold"
+                [disabled]="!signupForm.valid" *ngIf="!isLoading">
+                Créer un compte
+              </button>
+            </div>
+  
+            <!-- Loader -->
+            <div class="d-grid mb-3" *ngIf="isLoading">
+              <button type="button" class="btn btn-primary rounded-3 fw-semibold" disabled>
+                <div class="spinner-grow" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </form>
+  
+          <!-- Lien déjà un compte -->
+          <div class="text-center">
+            <span class="small">Déjà un compte ?
+              <a href="#" class="text-decoration-none text-success fw-semibold">Connectez-vous</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
