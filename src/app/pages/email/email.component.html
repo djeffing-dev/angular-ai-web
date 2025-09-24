@@ -78,7 +78,7 @@
             <option value="auto">Auto</option>
             <option value="fr">Français</option>
             <option value="en">English</option>
-            <option value="es">Español</option>
+            <!-- <option value="es">Español</option> -->
           </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
@@ -216,7 +216,7 @@
     </div>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()">
+      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()" (touchstart)="copyText()">
         <i class="bi" [ngClass]="copied ? 'bi-clipboard-check' : 'bi-clipboard'"></i>
         {{ copied ? 'Copié !' : 'Copier' }}
       </button>
