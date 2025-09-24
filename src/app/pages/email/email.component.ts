@@ -5,7 +5,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { EmailRequest } from '../../models/emailRequest';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'; // Import spécifique
 import { jsPDF } from 'jspdf'; // Pour mettre au utilisateur de detelecharger les documents via pdf
-import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
+// import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { isUserConnected } from '../../const/const';
