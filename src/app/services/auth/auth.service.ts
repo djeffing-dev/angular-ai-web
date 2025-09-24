@@ -1,7 +1,7 @@
 import { RegisterRequest } from './../../models/registerRequest';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { baseUrl } from '../../environements/environements';
+import { environement } from '../../environements/environements';
 import { Observable, retry, tap } from 'rxjs';
 import { JwtResponse } from '../../models/jwtResponse';
 import { LoginRequest } from '../../models/loginRequest';
@@ -12,7 +12,7 @@ import { UserResponse } from '../../models/userResponse';
 })
 export class AuthService {
 
-  url = `${baseUrl}/auth`
+  url = `${environement.apiUrl}/auth`
   constructor(private http: HttpClient) { }
 
   signin = (loginRequest : LoginRequest):Observable<JwtResponse> =>{

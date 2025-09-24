@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { baseUrl } from '../../environements/environements';
+import { environement } from '../../environements/environements';
 import { EmailRequest } from '../../models/emailRequest';
 import { EmailGenerator } from '../../models/emailGenerator';
 import { httpOption } from '../../const/const';
@@ -11,8 +11,8 @@ import { httpOption } from '../../const/const';
 })
 export class EmailGeneratorService {
 
-  url = `${baseUrl}/gpt`;
-  url2 = `${baseUrl}/emailGenrator`
+  url = `${environement.apiUrl}/gpt`;
+  url2 = `${environement.apiUrl}/emailGenrator`
   private emailSelected = new BehaviorSubject<EmailGenerator>({} as EmailGenerator)
 
   constructor(private http: HttpClient) { }

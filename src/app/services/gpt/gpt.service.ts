@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { baseUrl } from '../../environements/environements';
+import { environement } from '../../environements/environements';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class GptService {
 
-  url = `${baseUrl}/api/gpt`
+  url = `${environement.apiUrl}/api/gpt`
     constructor(private http : HttpClient) { }
   
     getRoadmap = (skill:string, nbMonth:number):Observable<string> => {

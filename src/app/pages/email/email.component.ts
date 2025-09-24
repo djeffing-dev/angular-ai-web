@@ -167,7 +167,7 @@ export class EmailComponent implements OnInit {
   }
 
   copyText = (): void => {
-    if (navigator.clipboard) {
+    if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(this.resultat)
         .then(() => {
           this.copied = true;
@@ -176,7 +176,22 @@ export class EmailComponent implements OnInit {
         .catch(err => console.error("Erreur de copie : ", err))
 
     } else {
-      console.error("API Clipboard non supportée");
+      // Fallback pour les mobiles anciens
+      const textarea = document.createElement("textarea");
+      textarea.value = this.resultat;
+      textarea.style.position = "fixed"; // évite le scroll sur iOS
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        this.copied = true;
+        setTimeout(() => this.copied = false, 2000);
+      } catch (err) {
+        console.error("Fallback: impossible de copier", err);
+      }
+      document.body.removeChild(textarea);
     }
   }
 

@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailGenerator } from '../../../models/emailGenerator';
-import { userConnected } from '../../../const/const';
+import { isUserConnected, userConnected } from '../../../const/const';
 
 @Component({
   selector: 'app-sidebar-right',
@@ -16,6 +16,7 @@ import { userConnected } from '../../../const/const';
 })
 export class SidebarRightComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  isconnect = isUserConnected();
 
   emailHistorys: EmailGenerator[] = [];
 
@@ -69,7 +70,7 @@ export class SidebarRightComponent implements OnInit, OnDestroy {
     console.log(`Chargement de l'historique pour l'application : ${appId}`);
 
     // Logique temporaire pour simuler le changement de contenu
-    if (appId == '') {
+    if (appId == 'chat-app') {
       this.todayItems = [
         { id: 1, title: 'AiWaveDefination',updatedAt :"", preview: 'Your last Question' },
         { id: 2, title: 'Business Shortcut Methode',updatedAt :"", preview: 'Best way to maintain code Quality' }
@@ -90,7 +91,7 @@ export class SidebarRightComponent implements OnInit, OnDestroy {
       ];
       this.weekItems = [];
       this.olderItems = [];
-    } else if(appId == "email-generator"){
+    } else if(appId == ''){ // email-generator
       // Pour les autres applications, l'historique est vide
       (userConnected())? this.getEmailHistory() : this.initialiseList()
     }
@@ -108,9 +109,8 @@ export class SidebarRightComponent implements OnInit, OnDestroy {
   }
 
   selectChat(item: any): void {
-    console.log('Selected chat:', item);
-    
-    if(this.activeAppId=="email-generator") this.selectedEmail(item);
+    //console.log('Selected chat:', item);
+    if(this.activeAppId=='') this.selectedEmail(item); // email-generator
   }
 
   showMore(): void {
@@ -122,7 +122,7 @@ export class SidebarRightComponent implements OnInit, OnDestroy {
       this.emailGeneratorService.findEmailByUserToken().subscribe({
         next: result => {
           this.emailHistorys = result;
-          console.log("Historique des mail de l'utilisateurs connecter : ", this.emailHistorys)
+          //console.log("Historique des mail de l'utilisateurs connecter : ", this.emailHistorys)
 
 
           // Initialiser les tableaux

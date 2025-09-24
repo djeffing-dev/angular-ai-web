@@ -9,7 +9,6 @@ export const isUserConnected = ():boolean =>{
 
     try{
         const payload = JSON.parse(atob(token.split(".")[1])); // Décoder la partie "payload" du JWT
-
         // Vérifier la date d'expiration (exp est en secondes → Date.now() est en ms)
         if(payload.exp && Date.now() >= payload.exp*1000){  
             localStorage.removeItem("token"); // Token expiré → on le supprime

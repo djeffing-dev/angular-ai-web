@@ -15,69 +15,78 @@ import { isUserConnected } from '../../../const/const';
 })
 export class SidebarLeftComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  isUserConnected:boolean = isUserConnected();
-  
-  
+  isUserConnected: boolean = isUserConnected();
+
+
   isOpen = false;
   activeAppId = '';
 
+  // appItems: AppItem[] = [
+  //   {
+  //     id: '',
+  //     name: 'Text Generator',
+  //     icon: 'fas fa-pencil-alt',
+  //     iconClass: 'text-generator',
+  //     active: true
+  //   },
+  //   {
+  //     id: 'image-generator',
+  //     name: 'Image Generator',
+  //     icon: 'fas fa-image',
+  //     iconClass: 'image-generator',
+  //     badge: 'NEW',
+  //     active: false
+  //   },
+  //   {
+  //     id: 'code-generator',
+  //     name: 'Code Generator',
+  //     icon: 'fas fa-code',
+  //     iconClass: 'code-generator',
+  //     active: false
+  //   },
+  //   {
+  //     id: 'image-editor',
+  //     name: 'Image Editor',
+  //     icon: 'fas fa-edit',
+  //     iconClass: 'image-editor',
+  //     active: false
+  //   },
+  //   {
+  //     id: 'video-generator',
+  //     name: 'Video Generator',
+  //     icon: 'fas fa-video',
+  //     iconClass: 'video-generator',
+  //     active: false
+  //   },
+  //   {
+  //     id: 'email-generator',
+  //     name: 'Email Generator',
+  //     icon: 'fas fa-envelope',
+  //     iconClass: 'email-generator',
+  //     active: false
+  //   },
+  //   {
+  //     id: 'website-generator',
+  //     name: 'Website Generator',
+  //     icon: 'fas fa-globe',
+  //     iconClass: 'website-generator',
+  //     badge: 'PRO',
+  //     active: false
+  //   }
+  // ];
+
   appItems: AppItem[] = [
     {
-      id: '',
-      name: 'Text Generator',
-      icon: 'fas fa-pencil-alt',
-      iconClass: 'text-generator',
-      active: true
-    },
-    {
-      id: 'image-generator',
-      name: 'Image Generator',
-      icon: 'fas fa-image',
-      iconClass: 'image-generator',
-      badge: 'NEW',
-      active: false
-    },
-    {
-      id: 'code-generator',
-      name: 'Code Generator',
-      icon: 'fas fa-code',
-      iconClass: 'code-generator',
-      active: false
-    },
-    {
-      id: 'image-editor',
-      name: 'Image Editor',
-      icon: 'fas fa-edit',
-      iconClass: 'image-editor',
-      active: false
-    },
-    {
-      id: 'video-generator',
-      name: 'Video Generator',
-      icon: 'fas fa-video',
-      iconClass: 'video-generator',
-      active: false
-    },
-    {
-      id: 'email-generator',
+      id: '', // email-generator
       name: 'Email Generator',
       icon: 'fas fa-envelope',
       iconClass: 'email-generator',
-      active: false
+      active: true
     },
-    {
-      id: 'website-generator',
-      name: 'Website Generator',
-      icon: 'fas fa-globe',
-      iconClass: 'website-generator',
-      badge: 'PRO',
-      active: false
-    }
-  ];
-
-  constructor( private dashboardService: DashboardService,
+  ]
+  constructor(private dashboardService: DashboardService,
     private router: Router // Injectez le Router
-   ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dashboardService.leftSidebarOpen$
@@ -99,7 +108,7 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
     this.router.navigate([appId]);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user")
     window.location.reload();

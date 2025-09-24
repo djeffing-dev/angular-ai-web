@@ -11,5 +11,5 @@ import { DashboardComponent } from "./pages/dashboard/dashboard.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'spring-angular-ai';
+  title = 'VibraAI';
 }
