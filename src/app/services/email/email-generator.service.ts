@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environement } from '../../environements/environements';
+import { environement } from '../../environments/environment';
 import { EmailRequest } from '../../models/emailRequest';
 import { EmailGenerator } from '../../models/emailGenerator';
 import { httpOption } from '../../const/const';
