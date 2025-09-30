@@ -2,7 +2,7 @@ import { Component, ViewChild, Inject, OnInit } from '@angular/core';
 import { EmailGeneratorService } from '../../services/email/email-generator.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { EmailRequest } from '../../models/emailRequest';
+import { EmailRequest, initEmailRequest, toEmailRequest } from '../../models/emailRequest';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'; // Import spécifique
 import { jsPDF } from 'jspdf'; // Pour mettre au utilisateur de detelecharger les documents via pdf
 // import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
@@ -24,19 +24,7 @@ import { right } from '@popperjs/core';
 export class EmailComponent implements OnInit {
   @ViewChild("loginForm") loginForm!: NgForm;
   id!: number | null;
-  emailRequest: EmailRequest = {
-    nom: "",
-    destinataire: "",
-    objet: "",
-    context: "",
-    objectif: "",
-    langue: "fr",
-    taille: "moyen",
-    style: "auto",
-    ton: "neutre",
-    humer: "neutre",
-    emoji: "modere"
-  };
+  emailRequest: EmailRequest = initEmailRequest();
 
   private destroy$ = new Subject<void>();
   resultat: string = "";
@@ -59,19 +47,7 @@ export class EmailComponent implements OnInit {
         this.isCreate = (this.id == null || this.id == undefined) // si l'id prend une valeur alors l'utilisateur veux faire une mise a jour
 
         if (currentEmail.id != undefined) {
-          this.emailRequest = {
-            nom: currentEmail.nom,
-            destinataire: currentEmail.destinataire,
-            objet: currentEmail.objet,
-            context: currentEmail.context,
-            objectif: currentEmail.objectif,
-            langue: currentEmail.langue,
-            taille: currentEmail.taille,
-            style: currentEmail.style,
-            ton: currentEmail.ton,
-            humer: currentEmail.humer,
-            emoji: currentEmail.emoji
-          };
+          this.emailRequest = toEmailRequest(currentEmail);
           this.resultat = currentEmail.content;
         }
       });
@@ -81,19 +57,7 @@ export class EmailComponent implements OnInit {
     console.log("resetComponent");
     this.id = null;
     this.isCreate = (this.id==null || this.id==undefined)
-    this.emailRequest = {
-      nom: "",
-      destinataire: "",
-      objet: "",
-      context: "",
-      objectif: "",
-      langue: "fr",
-      taille: "moyen",
-      style: "auto",
-      ton: "neutre",
-      humer: "neutre",
-      emoji: "modere"
-    };
+    this.emailRequest = initEmailRequest();
     this.resultat = "";
   }
 

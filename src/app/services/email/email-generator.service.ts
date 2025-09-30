@@ -23,7 +23,7 @@ export class EmailGeneratorService {
   }
 
   feshGenerateFreeEmail = (emailRequest: EmailRequest): Observable<string> => {
-    return this.http.post<string>(`${this.url}/emailGenerator-admin-free`, emailRequest, { responseType: 'text' as 'json' });
+    return this.http.post<string>(`${this.url2}/emailGenerator-admin-free`, emailRequest, { responseType: 'text' as 'json' });
   }
 
   // Generer les email avec le token de l'utilisateur
