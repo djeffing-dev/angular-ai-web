@@ -12,7 +12,7 @@
             </i>
           </label>
           <input type="text" class="form-control" id="nom" name="nom" aria-describedby="nomHelp"
-            [(ngModel)]="emailRequest.nom" required>
+            [(ngModel)]="emailRequest.nom" required placeholder="Ex. Jean Dupont">
           <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
         </div>
         <div class="col-lg-6 mb-3">
@@ -23,7 +23,8 @@
               triggers="hover" container="body"></i>
           </label>
           <input type="text" class="form-control" id="destinataire" name="destinataire"
-            [(ngModel)]="emailRequest.destinataire" required>
+            [(ngModel)]="emailRequest.destinataire" required
+            placeholder="Ex. Madame Martin (RH) ou martin@entreprise.com">
         </div>
       </div>
 
@@ -36,7 +37,7 @@
 
         </label>
         <input type="text" class="form-control" id="objet" name="objet" aria-describedby="objetHelp"
-          [(ngModel)]="emailRequest.objet">
+          [(ngModel)]="emailRequest.objet" placeholder="Ex. Candidature au poste de développeur web">
         <div id="objetHelp" class="form-text">Un objet clair améliore les chances d'ouverture.</div>
       </div>
 
@@ -48,7 +49,7 @@
             placement="top" triggers="hover" container="body"></i>
         </label>
         <input type="text" class="form-control" id="contexte" aria-describedby="contexteHelp" name="contexte"
-          [(ngModel)]="emailRequest.context" required>
+          [(ngModel)]="emailRequest.context" required placeholder="Ex. Suite à notre entretien du 12 septembre...">
         <div id="contexteHelp" class="form-text">Donnez le contexte pour une meilleure compréhension.</div>
       </div>
 
@@ -59,7 +60,8 @@
             ngbTooltip="Quel est le but de cet email ? Que voulez-vous obtenir comme réponse ou action de la part du destinataire ?"
             placement="top" triggers="hover" container="body"></i>
         </label>
-        <input type="text" class="form-control" id="objectif" name="objectif" aria-describedby="objectifHelp" [(ngModel)]="emailRequest.objectif" required>
+        <input type="text" class="form-control" id="objectif" name="objectif" aria-describedby="objectifHelp"
+          [(ngModel)]="emailRequest.objectif" required placeholder="Ex. Obtenir un rendez-vous la semaine prochaine">
         <div id="objectifHelp" class="form-text">Définissez clairement ce que vous attendez.</div>
       </div>
 
@@ -158,43 +160,20 @@
         </div>
       </div>
 
-      <!--
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="copie">
-            <label class="form-check-label text-white" for="copie">
-              <i class="bi bi-info-circle help-icon me-2"
-                ngbTooltip="Cochez cette case si vous souhaitez recevoir une copie de l'email généré dans votre boîte mail"
-                placement="right" triggers="hover" container="body"></i>
-              M'envoyer une copie de l'email généré
-            </label>
-          </div>
-        -->
-
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==false">
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' "
+          [disabled]="!loginForm.valid" *ngIf="isLoading==false">
           <i class="bi bi-magic"></i>{{ isCreate? "Générer l'email" : "Modifier l'email" }}
         </button>
 
-        <!-- <button type="submit" class="btn btn-warning" [disabled]="!loginForm.valid" *ngIf="isLoading==false && (!isCreate)">
-          <i class="bi bi-magic"></i> Modifier l'email
-        </button> -->
-
-        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==true">
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' "
+          [disabled]="!loginForm.valid" *ngIf="isLoading==true">
           <div class="spinner-grow" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </button>
         <button type="button" (click)="resetComponent()" class="btn btn-outline-light me-md-2">Réinitialiser</button>
-
-
-        <!--<button class="btn btn-primary fw-medium px-5" type="submit" [disabled]="!loginForm.valid" *ngIf="spinner == true" disabled>
-            <div class="spinner-border"></div>
-          </button> 
-
-          <button class="btn btn-primary fw-medium px-5" type="submit" [disabled]="!loginForm.valid"  *ngIf="spinner == false">
-            Submit & Preview
-          </button>-->
       </div>
     </form>
 
@@ -206,15 +185,15 @@
         <i class="bi bi-info-circle help-icon"
           ngbTooltip="L'email sera généré ici. Vous pourrez ensuite le copier, le modifier ou le télécharger selon vos besoins"
           placement="top" triggers="hover" container="body"></i>
-
       </label>
-      <textarea class="form-control ai-response" id="resultat" rows="8"  name="resultat" [(ngModel)]="resultat"
-        placeholder="L'email généré apparaîtra ici..."></textarea>
+      <textarea class="form-control ai-response" id="resultat" rows="8" name="resultat" [(ngModel)]="resultat"
+        placeholder="Exemple :&#10;Cher(e) Madame Martin,&#10;&#10;Je fais suite à notre entretien du 12 septembre et je souhaiterais convenir d’un rendez-vous la semaine prochaine afin de discuter plus en détail de ma candidature.&#10;&#10;Bien cordialement,&#10;Jean Dupont"></textarea>
       <div class="form-text">Vous pouvez copier et modifier le contenu selon vos besoins.</div>
     </div>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()" (touchstart)="copyText()">
+      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()"
+        (touchstart)="copyText()">
         <i class="bi" [ngClass]="copied ? 'bi-clipboard-check' : 'bi-clipboard'"></i>
         {{ copied ? 'Copié !' : 'Copier' }}
       </button>
