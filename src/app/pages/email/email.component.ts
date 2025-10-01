@@ -2,7 +2,7 @@ import { Component, ViewChild, Inject, OnInit } from '@angular/core';
 import { EmailGeneratorService } from '../../services/email/email-generator.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { EmailRequest } from '../../models/emailRequest';
+import { EmailRequest, initEmailRequest, toEmailRequest } from '../../models/emailRequest';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'; // Import spécifique
 import { jsPDF } from 'jspdf'; // Pour mettre au utilisateur de detelecharger les documents via pdf
 // import "../../../assets/fonts/NotoColorEmoji-Regular-normal.js"; // police convertie en JS
@@ -24,19 +24,7 @@ import { right } from '@popperjs/core';
 export class EmailComponent implements OnInit {
   @ViewChild("loginForm") loginForm!: NgForm;
   id!: number | null;
-  emailRequest: EmailRequest = {
-    nom: "",
-    destinataire: "",
-    objet: "",
-    context: "",
-    objectif: "",
-    langue: "fr",
-    taille: "moyen",
-    style: "auto",
-    ton: "neutre",
-    humer: "neutre",
-    emoji: "modere"
-  };
+  emailRequest: EmailRequest = initEmailRequest();
 
   private destroy$ = new Subject<void>();
   resultat: string = "";
@@ -59,19 +47,7 @@ export class EmailComponent implements OnInit {
         this.isCreate = (this.id == null || this.id == undefined) // si l'id prend une valeur alors l'utilisateur veux faire une mise a jour
 
         if (currentEmail.id != undefined) {
-          this.emailRequest = {
-            nom: currentEmail.nom,
-            destinataire: currentEmail.destinataire,
-            objet: currentEmail.objet,
-            context: currentEmail.context,
-            objectif: currentEmail.objectif,
-            langue: currentEmail.langue,
-            taille: currentEmail.taille,
-            style: currentEmail.style,
-            ton: currentEmail.ton,
-            humer: currentEmail.humer,
-            emoji: currentEmail.emoji
-          };
+          this.emailRequest = toEmailRequest(currentEmail);
           this.resultat = currentEmail.content;
         }
       });
@@ -80,20 +56,8 @@ export class EmailComponent implements OnInit {
   resetComponent(): void {
     console.log("resetComponent");
     this.id = null;
-    this.isCreate = (this.id==null || this.id==undefined)
-    this.emailRequest = {
-      nom: "",
-      destinataire: "",
-      objet: "",
-      context: "",
-      objectif: "",
-      langue: "fr",
-      taille: "moyen",
-      style: "auto",
-      ton: "neutre",
-      humer: "neutre",
-      emoji: "modere"
-    };
+    this.isCreate = (this.id == null || this.id == undefined)
+    this.emailRequest = initEmailRequest();
     this.resultat = "";
   }
 
@@ -107,17 +71,52 @@ export class EmailComponent implements OnInit {
   generateFreeEmail() {
     console.log("L'utilisateur non connecter --->");
     this.emailGeneratorService.feshGenerateFreeEmail(this.emailRequest).subscribe({
-      next: result => {
-        this.resultat = result
-        this.isLoading = false;
+      next: response => {
+        const body = response.body;
+        const headers = response.headers;
+
+        if (response.status == 200) {
+          this.resultat = body ?? '';
+
+          this.toastr.success(
+            `Votre email gratuit a été généré. 
+            Il vous reste ${headers.get('x-ratelimit-remaining')} sur ${headers.get('x-ratelimit-limit')} requêtes.`,
+            "Email généré avec succès 🎉",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+
+        }
       },
 
       error: err => {
-        console.error("Une erreur c'est produite : ", err.message);
-        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-          timeOut: 5000,
-          positionClass: 'toast-top-right'
-        });
+        if (err.status == 400) {
+          this.toastr.error(
+            "Vous avez épuisé vos essais gratuits. Revenez demain ou connectez-vous pour continuer.",
+            "Limite atteinte 🚫",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+
+        } else {
+          console.error("Une erreur c'est produite : ", err.message);
+          this.toastr.error(
+            "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+            "Erreur inattendue ⚠️",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+        }
+        this.isLoading = false;
+      },
+
+      complete: () => {
         this.isLoading = false;
       }
     })
@@ -129,15 +128,28 @@ export class EmailComponent implements OnInit {
     this.emailGeneratorService.feshGenerateAuthenticateEmaill(this.emailRequest).subscribe({
       next: result => {
         this.resultat = result
+        this.toastr.success(
+          `Votre email a été généré.`,
+          "Email généré avec succès 🎉",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
         this.isLoading = false;
       },
 
       error: err => {
         console.error("Une erreur c'est produite : ", err.message);
-        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-          timeOut: 5000,
-          positionClass: 'toast-top-right'
-        });
+        this.toastr.error(
+          "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+          "Erreur inattendue ⚠️",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
+        
         this.isLoading = false;
       }
     })
@@ -151,15 +163,27 @@ export class EmailComponent implements OnInit {
       this.emailGeneratorService.feshUpdateEmaill(this.id, this.emailRequest).subscribe({
         next: result => {
           this.resultat = result
+          this.toastr.warning(
+            `Votre email a été modifié.`,
+            "Email modifié avec succès 🎉",
+            {
+              timeOut: 5000,
+              positionClass: 'toast-top-right'
+            }
+          );
           this.isLoading = false;
         },
 
         error: err => {
           console.error("Une erreur c'est produite : ", err.message);
-          this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-            timeOut: 5000,
-            positionClass: 'toast-top-right'
-          });
+          this.toastr.error(
+            "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+            "Erreur inattendue ⚠️",
+            {
+              timeOut: 5000,
+              positionClass: 'toast-top-right'
+            }
+          );          
           this.isLoading = false;
         }
       })

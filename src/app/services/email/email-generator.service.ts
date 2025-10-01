@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environement } from '../../../environments/environment';
@@ -22,8 +22,15 @@ export class EmailGeneratorService {
     this.emailSelected.next(emailGenerator);
   }
 
-  feshGenerateFreeEmail = (emailRequest: EmailRequest): Observable<string> => {
-    return this.http.post<string>(`${this.url}/emailGenerator-admin-free`, emailRequest, { responseType: 'text' as 'json' });
+  feshGenerateFreeEmail = (emailRequest: EmailRequest): Observable<HttpResponse<string>> => {
+    return this.http.post<string>(
+      `${this.url2}/GenerateFreeEmail`,
+      emailRequest,
+      { 
+        observe: 'response',
+        responseType: 'text' as 'json' 
+      }
+    );
   }
 
   // Generer les email avec le token de l'utilisateur

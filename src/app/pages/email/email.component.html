@@ -12,10 +12,7 @@
             </i>
           </label>
           <input type="text" class="form-control" id="nom" name="nom" aria-describedby="nomHelp"
-            [(ngModel)]="emailRequest.nom" required
-            placeholder="Ex. Jean Dupont">
-          <input type="text" class="form-control" id="id" name="id" aria-describedby="nomHelp"
-            [(ngModel)]="id" hidden>
+            [(ngModel)]="emailRequest.nom" required placeholder="Ex. Jean Dupont">
           <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
         </div>
         <div class="col-lg-6 mb-3">
@@ -40,8 +37,7 @@
 
         </label>
         <input type="text" class="form-control" id="objet" name="objet" aria-describedby="objetHelp"
-          [(ngModel)]="emailRequest.objet"
-          placeholder="Ex. Candidature au poste de développeur web">
+          [(ngModel)]="emailRequest.objet" placeholder="Ex. Candidature au poste de développeur web">
         <div id="objetHelp" class="form-text">Un objet clair améliore les chances d'ouverture.</div>
       </div>
 
@@ -53,8 +49,7 @@
             placement="top" triggers="hover" container="body"></i>
         </label>
         <input type="text" class="form-control" id="contexte" aria-describedby="contexteHelp" name="contexte"
-          [(ngModel)]="emailRequest.context" required
-          placeholder="Ex. Suite à notre entretien du 12 septembre...">
+          [(ngModel)]="emailRequest.context" required placeholder="Ex. Suite à notre entretien du 12 septembre...">
         <div id="contexteHelp" class="form-text">Donnez le contexte pour une meilleure compréhension.</div>
       </div>
 
@@ -66,8 +61,7 @@
             placement="top" triggers="hover" container="body"></i>
         </label>
         <input type="text" class="form-control" id="objectif" name="objectif" aria-describedby="objectifHelp"
-          [(ngModel)]="emailRequest.objectif" required
-          placeholder="Ex. Obtenir un rendez-vous la semaine prochaine">
+          [(ngModel)]="emailRequest.objectif" required placeholder="Ex. Obtenir un rendez-vous la semaine prochaine">
         <div id="objectifHelp" class="form-text">Définissez clairement ce que vous attendez.</div>
       </div>
 
@@ -168,11 +162,13 @@
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==false">
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' "
+          [disabled]="!loginForm.valid" *ngIf="isLoading==false">
           <i class="bi bi-magic"></i>{{ isCreate? "Générer l'email" : "Modifier l'email" }}
         </button>
 
-        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' " [disabled]="!loginForm.valid" *ngIf="isLoading==true">
+        <button type="submit" [ngClass]="isCreate ? 'btn btn-primary' : 'btn btn-warning' "
+          [disabled]="!loginForm.valid" *ngIf="isLoading==true">
           <div class="spinner-grow" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -196,7 +192,8 @@
     </div>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()" (touchstart)="copyText()">
+      <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'" (click)="copyText()"
+        (touchstart)="copyText()">
         <i class="bi" [ngClass]="copied ? 'bi-clipboard-check' : 'bi-clipboard'"></i>
         {{ copied ? 'Copié !' : 'Copier' }}
       </button>
