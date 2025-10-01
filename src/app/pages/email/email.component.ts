@@ -56,7 +56,7 @@ export class EmailComponent implements OnInit {
   resetComponent(): void {
     console.log("resetComponent");
     this.id = null;
-    this.isCreate = (this.id==null || this.id==undefined)
+    this.isCreate = (this.id == null || this.id == undefined)
     this.emailRequest = initEmailRequest();
     this.resultat = "";
   }
@@ -71,17 +71,52 @@ export class EmailComponent implements OnInit {
   generateFreeEmail() {
     console.log("L'utilisateur non connecter --->");
     this.emailGeneratorService.feshGenerateFreeEmail(this.emailRequest).subscribe({
-      next: result => {
-        this.resultat = result
-        this.isLoading = false;
+      next: response => {
+        const body = response.body;
+        const headers = response.headers;
+
+        if (response.status == 200) {
+          this.resultat = body ?? '';
+
+          this.toastr.success(
+            `Votre email gratuit a été généré. 
+            Il vous reste ${headers.get('x-ratelimit-remaining')} sur ${headers.get('x-ratelimit-limit')} requêtes.`,
+            "Email généré avec succès 🎉",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+
+        }
       },
 
       error: err => {
-        console.error("Une erreur c'est produite : ", err.message);
-        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-          timeOut: 5000,
-          positionClass: 'toast-top-right'
-        });
+        if (err.status == 400) {
+          this.toastr.error(
+            "Vous avez épuisé vos essais gratuits. Revenez demain ou connectez-vous pour continuer.",
+            "Limite atteinte 🚫",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+
+        } else {
+          console.error("Une erreur c'est produite : ", err.message);
+          this.toastr.error(
+            "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+            "Erreur inattendue ⚠️",
+            {
+              timeOut: 7000,
+              positionClass: 'toast-top-right'
+            }
+          );
+        }
+        this.isLoading = false;
+      },
+
+      complete: () => {
         this.isLoading = false;
       }
     })
