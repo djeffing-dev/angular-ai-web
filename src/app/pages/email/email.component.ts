@@ -128,15 +128,28 @@ export class EmailComponent implements OnInit {
     this.emailGeneratorService.feshGenerateAuthenticateEmaill(this.emailRequest).subscribe({
       next: result => {
         this.resultat = result
+        this.toastr.success(
+          `Votre email a été généré.`,
+          "Email généré avec succès 🎉",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
         this.isLoading = false;
       },
 
       error: err => {
         console.error("Une erreur c'est produite : ", err.message);
-        this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-          timeOut: 5000,
-          positionClass: 'toast-top-right'
-        });
+        this.toastr.error(
+          "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+          "Erreur inattendue ⚠️",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
+        
         this.isLoading = false;
       }
     })
@@ -150,15 +163,27 @@ export class EmailComponent implements OnInit {
       this.emailGeneratorService.feshUpdateEmaill(this.id, this.emailRequest).subscribe({
         next: result => {
           this.resultat = result
+          this.toastr.warning(
+            `Votre email a été modifié.`,
+            "Email modifié avec succès 🎉",
+            {
+              timeOut: 5000,
+              positionClass: 'toast-top-right'
+            }
+          );
           this.isLoading = false;
         },
 
         error: err => {
           console.error("Une erreur c'est produite : ", err.message);
-          this.toastr.error("Une erreur c'est produite!", 'ECHEC :(', {
-            timeOut: 5000,
-            positionClass: 'toast-top-right'
-          });
+          this.toastr.error(
+            "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+            "Erreur inattendue ⚠️",
+            {
+              timeOut: 5000,
+              positionClass: 'toast-top-right'
+            }
+          );          
           this.isLoading = false;
         }
       })
