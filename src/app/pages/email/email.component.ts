@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { isUserConnected } from '../../const/const';
 import { right } from '@popperjs/core';
+import { EmailReply, initEmailReplay } from '../../models/emailReply';
 
 @Component({
   selector: 'app-email',
@@ -23,11 +24,14 @@ import { right } from '@popperjs/core';
 })
 export class EmailComponent implements OnInit {
   @ViewChild("loginForm") loginForm!: NgForm;
+  @ViewChild("loginForm") loginFormReply!: NgForm;
   id!: number | null;
   emailRequest: EmailRequest = initEmailRequest();
+  replyEmail: EmailReply = initEmailReplay({});
 
   private destroy$ = new Subject<void>();
   resultat: string = "";
+  resultatReply: string = "";
   isLoading: boolean = false;
   isCreate!: boolean;
   copied: boolean = false;
@@ -39,6 +43,7 @@ export class EmailComponent implements OnInit {
 
   ngOnInit(): void {
     // Abonnement à l'email selectionner "emailSelected$" depuis le service
+    console.log("Email Reply : ", this.replyEmail);
     this.emailGeneratorService.emailSelected$
       .pipe(takeUntil(this.destroy$))
       .subscribe(currentEmail => {
@@ -126,8 +131,9 @@ export class EmailComponent implements OnInit {
   generateAuthenticateEmail() {
     console.log("---> L'utilisateur connecter connecter --->");
     this.emailGeneratorService.feshGenerateAuthenticateEmaill(this.emailRequest).subscribe({
-      next: result => {
-        this.resultat = result
+      next: response => {
+        console.log("La response du serveur : ", response)
+        this.resultat = response
         this.toastr.success(
           `Votre email a été généré.`,
           "Email généré avec succès 🎉",
@@ -149,7 +155,42 @@ export class EmailComponent implements OnInit {
             positionClass: 'toast-top-right'
           }
         );
-        
+
+        this.isLoading = false;
+      }
+    })
+  }
+
+  //generete raply email 
+  generateReplyEmail() {
+    this.isLoading = true;
+    //console.log("Le modele de l'email a repondre : ", this.replyEmail);
+    this.emailGeneratorService.generateReplyEmail(this.replyEmail).subscribe({
+      next: response => {
+        console.log("La response du serveur : ", response)
+        this.resultatReply = response
+        this.toastr.success(
+          `Votre email de réponse a été généré.`,
+          "Email généré avec succès 🎉",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
+        this.isLoading = false;
+      },
+
+      error: err => {
+        console.error("Une erreur c'est produite : ", err.message);
+        this.toastr.error(
+          "Un problème est survenu lors de la génération de l’email. Veuillez réessayer plus tard.",
+          "Erreur inattendue ⚠️",
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-right'
+          }
+        );
+
         this.isLoading = false;
       }
     })
@@ -183,7 +224,7 @@ export class EmailComponent implements OnInit {
               timeOut: 5000,
               positionClass: 'toast-top-right'
             }
-          );          
+          );
           this.isLoading = false;
         }
       })
@@ -219,6 +260,7 @@ export class EmailComponent implements OnInit {
     }
   }
 
+
   downloadPDF(): void {
     const doc = new jsPDF();
     // Titre
@@ -239,5 +281,57 @@ export class EmailComponent implements OnInit {
     doc.save("eamail.pdf"); // déclenche le téléchargement
   }
 
+  // Copier le text de l'email de reponse
+  copyReplayReslutText = (): void => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(this.resultatReply)
+        .then(() => {
+          this.copied = true;
+          setTimeout(() => this.copied = false, 2000);
+        })
+        .catch(err => console.error("Erreur de copie : ", err))
+
+    } else {
+      // Fallback pour les mobiles anciens
+      const textarea = document.createElement("textarea");
+      textarea.value = this.resultatReply;
+      textarea.style.position = "fixed"; // évite le scroll sur iOS
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        this.copied = true;
+        setTimeout(() => this.copied = false, 2000);
+      } catch (err) {
+        console.error("Fallback: impossible de copier", err);
+      }
+      document.body.removeChild(textarea);
+    }
+  }
+
+  // Telécharger le text de l'email de reponse en pdf
+  downloadReplayReslutPDF(): void {
+    const doc = new jsPDF();
+    // Titre
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("📄 Résultat de génération", 10, 15);
+
+
+    // Contenu
+    doc.setFont("helvetica", "normal");
+    doc.setFont("callAddFont"); // nouvelle police avec emojis
+    doc.setFontSize(12);
+
+    // Gérer le multi-lignes
+    const lines = doc.splitTextToSize(this.resultatReply, 180); // 180mm largeur max
+    doc.text(lines, 10, 30);
+
+    doc.save("eamail.pdf"); // déclenche le téléchargement
+  }
 
 }
+
+

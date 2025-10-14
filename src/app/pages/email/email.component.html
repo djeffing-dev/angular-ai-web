@@ -1,5 +1,20 @@
-<div class="chat-messages ai-response">
-  <div class="chat-input-container  card text-white p-4">
+<div class=" tab-content chat-messages ai-response">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-primary nav-link active" id="compose-tab" data-bs-toggle="tab" data-bs-target="#compose"
+        type="button">
+        Compose a new email with AI
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-primary nav-link " id="reply-tab" data-bs-toggle="tab" data-bs-target="#reply"
+        type="button">
+        Write a reply with AI
+      </button>
+    </li>
+  </ul>
+  <!-- First pannel -->
+  <div class="chat-input-container  card text-white p-4 tab-pane fade show active" id="compose" role="tabpanel">
     <h4 class="mb-4">Générateur d'email IA</h4>
     <form #loginForm="ngForm" (ngSubmit)="(isCreate)? generateEmail() : updateEmail()">
       <div class="row">
@@ -202,5 +217,211 @@
         <i class="bi bi-download"></i> Télécharger
       </button>
     </div>
+  </div>
+
+  <!-- Second pannel -->
+  <div class="chat-input-container  card text-white p-4 tab-pane fade" id="reply" role="tabpanel">
+    <h4 class="mb-4">Générateur d'email IA</h4>
+    <form #loginFormReply="ngForm" (ngSubmit)="generateReplyEmail()">
+
+      <!-- Nom et destinataire -->
+      <div class="row">
+        <div class="col-lg-6 mb-3">
+          <label for="name" class="form-label">
+            Votre nom
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Entrez votre nom complet tel qu'il doit apparaître dans la signature de l'email"
+              placement="top" triggers="hover" container="body">
+            </i>
+          </label>
+          <input type="text" class="form-control" id="name" name="name" aria-describedby="nomHelp"
+            [(ngModel)]="replyEmail.name" required placeholder="Ex. Jean Dupont">
+          <div id="nomHelp" class="form-text">Ce nom apparaîtra dans la signature.</div>
+        </div>
+        <div class="col-lg-6 mb-3">
+          À (Destinataire)
+          <label for="destinataire2" class="form-label">
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Nom ou adresse email de la personne qui recevra votre message" placement="top"
+              triggers="hover" container="body"></i>
+          </label>
+          <input type="text" class="form-control" id="destinataire2" name="destinataire"
+            [(ngModel)]="replyEmail.destinataire" required
+            placeholder="Ex. Madame Martin (RH) ou martin@entreprise.com">
+        </div>
+      </div>
+
+      <!-- Email/Conversation reçu -->
+      <div class="mb-3">
+        <label for="receivedEmail" class="form-label">
+          Email Reçu/Conversation
+          <i class="bi bi-info-circle help-icon"
+            ngbTooltip="Entrez ici l'email ou la conversation reçue pour permettre à l'IA de générer une réponse adaptée"
+            placement="top" triggers="hover" container="body"></i>
+        </label>
+        <textarea class="form-control" id="receivedEmail" rows="8" name="receivedEmail"
+          [(ngModel)]="replyEmail.receivedEmail"
+          placeholder="Entrez ici l'email ou la conversation reçue pour permettre à l'IA de générer une réponse adaptée">
+        </textarea>
+      </div>
+
+      <!-- But de la reponse -->
+      <div class="mb-3">
+        <label for="replayGoal" class="form-label">
+          Quel est votre objectif de réponse ? Points clés :
+          <i class="bi bi-info-circle help-icon"
+            ngbTooltip="Décrivez prièvement le but de votre reponse en quelque mots" placement="top" triggers="hover"
+            container="body"></i>
+        </label>
+        <textarea class="form-control" id="replayGoal" rows="8" name="replayGoal" [(ngModel)]="replyEmail.replayGoal"
+          placeholder="Pour de meilleurs résultats, fournissez uniquement les points clés dans n'importe quelle langue:&#10;- point principal&#10;- point important&#10;- prochains points&#10;- point final&#10;&#10;L'IA utilisera ces points pour générer une réponse complète.">
+        </textarea>
+      </div>
+
+      <!-- Taille, Style, Ton, Humeur, Emoji -->
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="langue2" class="form-label">
+            Langue
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Choisissez la langue dans laquelle l'email doit être rédigé. 'Auto' détectera automatiquement la langue appropriée"
+              placement="top" triggers="hover" container="body"></i>
+          </label>
+          <select id="langue2" name="langue" class="form-select" aria-label="Sélection de langue"
+            [(ngModel)]="replyEmail.langue">
+            <option value="auto">Auto</option>
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+            <!-- <option value="es">Español</option> -->
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="taille2" class="form-label">
+            Taille
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Longueur souhaitée pour l'email : Court (1-2 paragraphes), Moyen (3-4 paragraphes), Long (5+ paragraphes)"
+              placement="top" triggers="hover" container="body"></i>
+          </label>
+          <select class="form-select" id="taille2" name="taille" aria-label="Sélection de taille"
+            [(ngModel)]="replyEmail.taille">
+            <option selected>Auto</option>
+            <option value="court">Court</option>
+            <option value="moyen">Moyen</option>
+            <option value="long">Long</option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="style2" class="form-label">
+            Style
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Style de rédaction : Formel (vouvoiement, langage soutenu), Informel (tutoiement, décontracté), Professionnel (équilibré, respectueux)"
+              placement="top" triggers="hover" container="body"></i>
+
+          </label>
+          <select class="form-select" id="style2" name="style" aria-label="Sélection de style"
+            [(ngModel)]="replyEmail.style">
+            <option value="auto" selected>Auto</option>
+            <option value="formel">Formel</option>
+            <option value="informel">Informel</option>
+            <option value="professionnel">Professionnel</option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="ton2" class="form-label">
+            Ton
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Ton à adopter : Amical (chaleureux, bienveillant), Neutre (factuel, objectif), Assertif (direct, confiant)"
+              placement="top" triggers="hover" container="body"></i>
+
+          </label>
+          <select class="form-select" id="ton2" name="ton" aria-label="Sélection de ton" [(ngModel)]="replyEmail.ton">
+            <option value="auto" selected>Auto</option>
+            <option value="amical">Amical</option>
+            <option value="neutre">Neutre</option>
+            <option value="assertif">Assertif</option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="humeur2" class="form-label">
+            Humeur
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Ambiance générale : Positive (optimiste, encourageant), Neutre (équilibré), Sérieuse (grave, important)"
+              placement="top" triggers="hover" container="body"></i>
+
+          </label>
+          <select class="form-select" id="humeur2" name="humer" aria-label="Sélection d'humeur"
+            [(ngModel)]="replyEmail.humer">
+            <option value="auto" selected>Auto</option>
+            <option value="positive">Positive</option>
+            <option value="neutre">Neutre</option>
+            <option value="serieuse">Sérieuse</option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-4 mb-3">
+          <label for="emoji2" class="form-label">
+            Emoji
+            <i class="bi bi-info-circle help-icon"
+              ngbTooltip="Utilisation d'emojis dans l'email : Oui (emojis fréquents), Non (aucun emoji), Modéré (quelques emojis appropriés)"
+              placement="top" triggers="hover" container="body"></i>
+          </label>
+          <select class="form-select" id="emoji2" name="emoji" aria-label="Sélection emoji"
+            [(ngModel)]="replyEmail.emoji">
+            <option value="auto" selected>Auto</option>
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+            <option value="modere">Modéré</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+        <button type="submit" [disabled]="!loginFormReply.valid" class="btn btn-primary" *ngIf="isLoading==false">
+          <i class="bi bi-magic"></i>{{ isCreate? "Générer l'email" : "Modifier l'email" }}
+        </button>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!loginFormReply.valid" *ngIf="isLoading==true">
+          <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+        <button type="button" (click)="resetComponent()" class="btn btn-outline-light me-md-2">Réinitialiser</button>
+      </div>
+    </form>
+
+    <hr class="my-4">
+
+    <div *ngIf="resultatReply!=''">
+      <div class="mb-3">
+        <label for="resultatReply" class="form-label">
+          Réponse généré
+          <i class="bi bi-info-circle help-icon"
+            ngbTooltip="L'email sera généré ici. Vous pourrez ensuite le copier, le modifier ou le télécharger selon vos besoins"
+            placement="top" triggers="hover" container="body"></i>
+        </label>
+        <textarea class="form-control ai-response" id="resultatReply" rows="8" name="resultatReply"
+          [(ngModel)]="resultatReply"
+          placeholder="Exemple :&#10;Cher(e) Madame Martin,&#10;&#10;Je fais suite à notre entretien du 12 septembre et je souhaiterais convenir d’un rendez-vous la semaine prochaine afin de discuter plus en détail de ma candidature.&#10;&#10;Bien cordialement,&#10;Jean Dupont"></textarea>
+        <div class="form-text">Vous pouvez copier et modifier le contenu selon vos besoins.</div>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn" [ngClass]="copied ? 'btn-success' : 'btn-outline-success'"
+          (click)="copyReplayReslutText()" (touchstart)="copyReplayReslutText()">
+          <i class="bi" [ngClass]="copied ? 'bi-clipboard-check' : 'bi-clipboard'"></i>
+          {{ copied ? 'Copié !' : 'Copier' }}
+        </button>
+
+        <button type="button" class="btn btn-outline-warning" (click)="downloadReplayReslutPDF()">
+          <i class="bi bi-download"></i> Télécharger
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
