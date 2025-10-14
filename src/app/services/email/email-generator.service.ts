@@ -1,3 +1,4 @@
+import { EmailReply } from './../../models/emailReply';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -46,5 +47,10 @@ export class EmailGeneratorService {
   // Obtenir la liste des email d'un utlisateur auhtentifier.
   findEmailByUserToken = (): Observable<EmailGenerator[]> => {
     return this.http.get<EmailGenerator[]>(`${this.url2}/findByUserToken`, httpOption())
+  }
+
+  // Generer une reponse a un email recu
+  generateReplyEmail = (emailReply: EmailReply): Observable<string> =>{
+    return this.http.post<string>(`${this.url2}/generate-replyEmail`, emailReply, {responseType: 'text' as 'json' });
   }
 }
